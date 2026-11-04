@@ -1,223 +1,595 @@
 # Architecture applicative
 
-## 1. Objet et périmètre
+> **Cible :** Angular 22.2 (version installée), standalone, sans zone.js, composants `OnPush` par défaut.
+> **Statut :** socle de conventions. Les exemples décrivent la cible ; ils ne supposent pas que les fichiers existent déjà.
+> Les écrans de référence sont les [maquettes fonctionnelles](../maquette).
 
-Ce document décrit une cible d'architecture pour l'application Angular et des conventions de mise en œuvre. Il s'agit de propositions, pas d'un inventaire de fonctionnalités déjà réalisées.
+## Sommaire
 
-Le projet est actuellement un squelette Angular standalone : `src/main.ts` démarre `App` avec `bootstrapApplication`, `src/app/config/app.config.ts` fournit le routeur et `src/app/app.routes.ts` ne définit encore aucune route. Les dossiers `core`, `pages`, `components`, `directives`, `pipes` et `infra` sont présents mais ne contiennent pas encore de code applicatif, à l'exception du schéma produit dans `core/schemas`. Les exemples ci-dessous sont donc des contrats et des conventions à appliquer au fil des fonctionnalités, et non des fichiers supposés déjà exister.
+1. [Décisions clés](#1-décisions-clés)
+2. [État actuel et points d'attention](#2-état-actuel-et-points-dattention)
+3. [Organisation des fichiers](#3-organisation-des-fichiers)
+4. [Conventions Angular 22](#4-conventions-angular-22)
+5. [Données : lecture, écriture, état partagé](#5-données--lecture-écriture-état-partagé)
+6. [Formulaires](#6-formulaires)
+7. [Routing, guards et resolvers](#7-routing-guards-et-resolvers)
+8. [HTTP et interceptors](#8-http-et-interceptors)
+9. [Notifications](#9-notifications)
+10. [Pipes, directives et composants partagés](#10-pipes-directives-et-composants-partagés)
+11. [Tests](#11-tests)
+12. [Mise en œuvre progressive](#12-mise-en-œuvre-progressive)
 
-## 2. Organisation proposée
+## 1. Décisions clés
 
-Conserver le point d'entrée et les répertoires déjà créés. Organiser le code de chaque domaine sous `features/` plutôt que de concentrer les pages et services métier dans des dossiers globaux :
+| Sujet | Décision |
+| --- | --- |
+| Composants | Standalone, `inject()`, `input()` / `output()` / `model()`, contrôle de flux `@if` / `@for` / `@switch`. |
+| Réactivité | Signaux pour l'état et les dérivations (`signal`, `computed`, `linkedSignal`). RxJS seulement pour les flux d'événements. |
+| Lecture de données | `httpResource()` déclaré dans la page, alimenté par des signaux (souvent les paramètres d'URL). |
+| Écriture de données | Méthodes d'une API de domaine retournant un `Observable` ; pas de classe CRUD générique. |
+| Validation des réponses | Schémas Zod existants (`core/schemas`), appliqués à la frontière HTTP. |
+| Formulaires | Signal Forms (`@angular/forms/signals`) : `form()`, `[formField]`, `[formRoot]`. |
+| État partagé | Service `providedIn: 'root'` à signaux, uniquement si plusieurs écrans partagent l'état (session, notifications). |
+| Routing | Routes chargées à la demande, guards et resolvers fonctionnels, paramètres reçus en `input()` via `withComponentInputBinding()`. |
+| HTTP | `provideHttpClient(withInterceptors([...]))` ; backend Fetch par défaut (`withFetch()` est déprécié). |
+
+## 2. État actuel et points d'attention
+
+Le projet est un squelette : `main.ts` démarre `App` via `bootstrapApplication`, `config/app.config.ts` fournit le routeur, `app.routes.ts` est vide. Seul `core/schemas/products.ts` contient du code métier.
+
+À traiter avant d'implémenter le domaine produit :
+
+- **Dépendance Zod implicite** : `zod` (4.x) est résolu dans `node_modules` mais absent de `package.json`. Le déclarer explicitement (`npm install zod`).
+- **Type de `id`** : le schéma déclare `id: z.string()` alors que DummyJSON renvoie un nombre. En l'état, toute réponse réelle est rejetée par la validation. Choisir `z.number()` ou `z.coerce.string()` et l'appliquer de façon cohérente aux routes (`/products/:id`).
+- **Champs manquants pour l'écran de recherche** : la réponse de liste ne déclare pas `total`, `skip` ni `limit`, nécessaires à la pagination maquettée.
+- **Endpoint** : `http://dummyjson.com/products` doit passer en `https://`.
+- **Mode strict** : `strict` et `strictTemplates` ne sont pas activés. Les activer dès maintenant, tant que le code est réduit.
+
+## 3. Organisation des fichiers
 
 ```text
-src/
-  app/
-    app.routes.ts
-    config/
-      app.config.ts
-    shell/
-      app.ts
-      app.html
-    core/                         # services et mécanismes singleton de l'application
-      auth/
-      guards/
-      interceptors/
-      notifications/
-      resolvers/
-      schemas/
-    features/
-      products/
-        data-access/               # API, modèles et état du domaine
-        pages/                     # pages routées
-        ui/                        # composants propres au domaine
-        products.routes.ts
-      auth/
-        pages/
-        data-access/
-    components/                    # composants génériques réellement partagés
-    directives/
-    pipes/
-    infra/                         # adaptateurs techniques si plusieurs sont nécessaires
-  styles.scss
+src/app/
+  app.routes.ts                 # routes racines + pages de repli
+  config/app.config.ts          # providers applicatifs
+  shell/                        # composant racine, layout (menu, en-tête)
+  core/                         # singletons transverses, sans UI
+    auth/                       # AuthService, authGuard, guestGuard, interceptors
+    notifications/              # NotificationStore
+    schemas/                    # schémas Zod partagés
+  features/
+    products/
+      product-api.ts            # accès HTTP + validation
+      products.routes.ts        # routes du domaine (export default)
+      product-resolver.ts
+      pages/                    # product-search, product-detail, product-edit
+      ui/                       # composants propres au domaine
+    auth/pages/login/
+    notifications/pages/
+  components/ directives/ pipes/   # partagés, seulement après un 2e usage réel
 ```
 
-Cette arborescence est évolutive : ne créer un sous-dossier ou une abstraction que lorsqu'un usage concret le justifie. Un composant exclusivement lié aux produits reste dans `features/products/ui`; il ne devient partagé qu'après identification d'un besoin commun. `core` est réservé aux services à instance applicative et aux fonctions transverses, pas aux composants visuels génériques.
+Règles :
 
-## 3. Conventions de développement
+- Un fichier par composant (`product-search-page.ts` + `.html` si le template dépasse ~30 lignes).
+- Commencer à plat dans la feature ; créer un sous-dossier quand il y a plusieurs fichiers du même type.
+- `core` ne contient pas de composants visuels. Un composant ne migre vers `components/` qu'une fois réutilisé par un deuxième domaine.
+- Le dossier `infra/` existant n'est utile qu'en cas d'adaptateur technique réel (stockage, télémétrie) ; ne pas l'alimenter par anticipation.
 
-- Utiliser les composants standalone et l'injection par `inject()` lorsque cela rend les dépendances claires; conserver les providers au niveau application, route ou composant selon leur portée nécessaire.
-- Garder les composants de page responsables de l'orchestration et les composants d'interface spécialisés, réutilisables et simples. Préférer des composants petits à un composant générique sur-paramétré.
-- Utiliser les signaux pour l'état synchrone local et les états de vue dérivés; utiliser RxJS pour composer les flux asynchrones (HTTP, événements, annulation et changements rapides de critères).
-- Déclarer explicitement les types des entrées/sorties, préférer `readonly` pour les collections exposées, et éviter `any`, les casts non vérifiés et les conversions silencieuses.
-- Utiliser des noms explicites et cohérents : composants `product-list`, services `ProductService`, pipes `currencyLabel`, directives `appAutofocus`. Une classe abstraite porte un nom métier clair, par exemple `ApiResource`.
-- Centraliser les routes, les paramètres d'URL et les clés de `Route.data` au lieu de répéter des chaînes magiques.
-- Présenter les états de chargement, vide et erreur dans l'interface. Ne pas transformer une erreur réseau en réponse de succès vide; convertir les erreurs à une frontière explicite et conserver une information exploitable pour l'utilisateur ou les journaux.
-- Tester le comportement métier et les composants via le runner déjà configuré par Angular CLI/Vitest. Les tests de transformation et de validation doivent couvrir au minimum les cas valides et invalides.
-- Activer progressivement les options TypeScript et Angular de mode strict lorsque les sources le permettent. Le `tsconfig.json` actuel n'active pas tous les modes stricts; éviter de supposer qu'ils sont déjà imposés.
+## 4. Conventions Angular 22
 
-Le schéma `core/schemas/products.ts` valide les données au moyen de Zod, tandis que le manifeste `package.json` ne déclare pas directement `zod`. Avant de s'appuyer sur cette validation à l'exécution, vérifier la résolution réelle de cette dépendance et la déclarer explicitement dans le manifeste si elle est requise.
+**Composants**
 
-## 4. Abstractions partagées
+- Standalone (implicite), `OnPush` implicite : ne pas renseigner `standalone` ni `changeDetection`.
+- Dépendances via `inject()` dans les champs, jamais par le constructeur.
+- Entrées / sorties : `input()`, `input.required()`, `output()`, `model()` pour un double binding. Pas de `@Input` / `@Output`.
+- Liaisons d'hôte via la propriété `host` du décorateur, pas `@HostBinding` / `@HostListener`.
+- Templates : `@if`, `@for` (avec `track`), `@switch`, `@let` ; `[class.x]` / `[style.x]` plutôt que `ngClass` / `ngStyle`.
+- Pages : orchestration (route, données, navigation). Composants `ui/` : présentation pure par `input()` / `output()`.
+- Membres utilisés uniquement par le template : `protected`.
 
-### Pipes
+**Signaux et RxJS**
 
-Créer un pipe lorsque la transformation est pure, synchrone, réutilisée dans des templates et ne modifie pas les données : libellés, présentation d'une valeur ou format métier simple. Utiliser les pipes Angular intégrés pour les formats standards (date, devise, nombres). Ne pas cacher un appel réseau, un accès au service ou une logique métier complexe dans un pipe.
+| Besoin | Outil |
+| --- | --- |
+| État local modifiable | `signal()` |
+| Valeur dérivée | `computed()` |
+| État modifiable réinitialisé par une source (ex. modèle de formulaire depuis le produit résolu) | `linkedSignal()` |
+| Données distantes en lecture | `httpResource()` (ou `rxResource()` si la source est un `Observable`) |
+| Action ponctuelle (enregistrer, supprimer) | `Observable` de l'API, converti avec `firstValueFrom` dans une action async |
+| Flux d'événements (debounce, annulation, websocket) | RxJS, puis `toSignal()` pour l'affichage |
+| Effet de bord vers l'extérieur (stockage local, focus) | `effect()` — jamais pour synchroniser deux signaux |
 
-### Directives
+**Nommage et typage**
 
-Créer une directive attributaire pour un comportement d'interface réutilisable qui ne justifie pas un composant (par exemple, gérer le focus initial d'un contrôle). Les fonctionnalités interactives doivent rester accessibles au clavier et exposer leurs entrées de manière typée. Réserver les directives structurelles à un besoin réellement différent des blocs conditionnels et boucles Angular intégrés.
+- Classes sans suffixe technique superflu : `ProductSearchPage`, `ProductApi`, `NotificationStore` ; sélecteurs préfixés `app-`.
+- Pas de `any`, pas de cast non vérifié : toute donnée externe passe par un schéma.
+- Collections exposées en `readonly T[]`.
+- Locale `fr-FR` fournie au niveau application pour les pipes `currency`, `date` et `number` (voir § 8).
 
-### Composants communs et utilitaires
-
-Un composant partagé doit avoir une responsabilité et une API d'entrées/sorties stables; le conserver dans le domaine tant qu'aucun autre domaine ne le réutilise. Placer les fonctions pures indépendantes d'Angular près du domaine ou dans un module utilitaire ciblé. Éviter les « helpers » globaux fourre-tout.
-
-## 5. Consommation d'API
-
-Fournir `HttpClient` dans la configuration de l'application (`provideHttpClient`) et isoler les URL, paramètres, sérialisation et validation à la frontière du domaine. Les composants ne construisent pas directement des requêtes HTTP.
-
-Une classe abstraite peut mutualiser les opérations CRUD réellement identiques sans imposer un format de réponse API commun qui n'existe pas. Exemple de contrat indicatif :
+<details>
+<summary>Exemple : composant de présentation</summary>
 
 ```ts
-abstract class ApiResource<T, CreateDto, UpdateDto> {
-  protected abstract readonly endpoint: string;
-  protected abstract decodeList(body: unknown): readonly T[];
-  protected abstract decodeItem(body: unknown): T;
-
-  protected constructor(protected readonly http: HttpClient) {}
-
-  list(): Observable<readonly T[]> {
-    return this.http.get<unknown>(this.endpoint).pipe(
-      map((body) => this.decodeList(body)),
-    );
-  }
-
-  get(id: string): Observable<T> {
-    return this.http.get<unknown>(`${this.endpoint}/${encodeURIComponent(id)}`).pipe(
-      map((body) => this.decodeItem(body)),
-    );
-  }
-
-  create(value: CreateDto): Observable<T> {
-    return this.http.post<unknown>(this.endpoint, value).pipe(
-      map((body) => this.decodeItem(body)),
-    );
-  }
-
-  update(id: string, value: UpdateDto): Observable<T> {
-    return this.http.patch<unknown>(
-      `${this.endpoint}/${encodeURIComponent(id)}`,
-      value,
-    ).pipe(map((body) => this.decodeItem(body)));
-  }
-
-  delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.endpoint}/${encodeURIComponent(id)}`);
-  }
+@Component({
+  selector: 'app-product-row',
+  imports: [CurrencyPipe],
+  host: { role: 'row', '[class.selected]': 'selected()' },
+  template: `
+    <span>{{ product().title }}</span>
+    <span>{{ product().price | currency: 'EUR' }}</span>
+    <button type="button" (click)="edit.emit(product().id)">Modifier</button>
+  `,
+})
+export class ProductRow {
+  readonly product = input.required<ProductSchema>();
+  readonly selected = input(false);
+  readonly edit = output<string>();
 }
 ```
 
-Chaque service concret fournit son URL et ses décodeurs, en validant les réponses avec le schéma runtime du domaine lorsqu'il existe. Les méthodes exposent des `Observable` froids : une requête n'est exécutée qu'à la souscription et une erreur reste une erreur RxJS. Adapter les opérations (`patch` ou `put`, pagination, enveloppe de liste, etc.) au contrat réel du serveur; ne pas adopter cette classe si les ressources ont des comportements trop différents. L'endpoint DummyJSON et le schéma produit existants illustrent déjà le besoin d'extraire une liste `products` de sa réponse enveloppe.
+</details>
 
-## 6. Services réactifs : état découvert et résultat d'opération
+## 5. Données : lecture, écriture, état partagé
 
-Séparer explicitement :
+Trois patterns suffisent à ce stade. Le choix dépend de l'usage, pas de la ressource.
 
-1. **L'état découvert**, conservé par le service et observable par plusieurs consommateurs (données courantes, chargement, erreur). Il est exposé en lecture seule, idéalement sous forme de signaux.
-2. **Le résultat d'une opération**, remis à l'appelant par la méthode qui la déclenche, sous forme d'`Observable` ou de `Promise` typé. L'appelant peut alors composer la réponse, naviguer ou gérer un effet ponctuel sans devoir relire l'état partagé.
+| Cas | Pattern | Écran |
+| --- | --- | --- |
+| Lire des données qui dépendent de l'écran | `httpResource()` dans la page | Recherche produits |
+| Lire des données indispensables à l'affichage d'une route | Resolver + `input()` | Détail, modification |
+| Modifier des données | Méthode de l'API de domaine | Modification |
+| Partager un état entre écrans | Store à signaux `providedIn: 'root'` | Notifications, session |
 
-Exemple de forme, à compléter avec les types du domaine :
+### 5.1 API de domaine
+
+Une classe par domaine centralise URL, paramètres et validation. Les composants ne construisent jamais de requête HTTP. Les réponses sont validées avec le schéma Zod via l'option `parse` de `httpResource` ou un `map` sur l'`Observable`.
+
+<details>
+<summary>Exemple : <code>ProductApi</code></summary>
 
 ```ts
+export interface ProductQuery {
+  readonly q: string;
+  readonly page: number;
+  readonly size: number;
+}
+
+export type ProductChanges = Omit<ProductSchema, 'id'>;
+
 @Injectable({ providedIn: 'root' })
-export class ProductService {
-  private readonly api = inject(ProductApi);
+export class ProductApi {
+  private readonly http = inject(HttpClient);
 
-  private readonly _products = signal<readonly Product[]>([]);
-  private readonly _loading = signal(false);
-  private readonly _error = signal<string | null>(null);
-
-  readonly products = this._products.asReadonly();
-  readonly loading = this._loading.asReadonly();
-  readonly error = this._error.asReadonly();
-
-  search(criteria: ProductCriteria): Observable<readonly Product[]> {
-    this._loading.set(true);
-    this._error.set(null);
-
-    return this.api.search(criteria).pipe(
-      tap((products) => this._products.set(products)),
-      catchError((error: unknown) => {
-        this._error.set(toUserMessage(error));
-        return throwError(() => error);
-      }),
-      finalize(() => this._loading.set(false)),
+  /** Lecture réactive : à appeler dans un contexte d'injection (champ de composant). */
+  search(query: Signal<ProductQuery>) {
+    return httpResource(
+      () => {
+        const { q, page, size } = query();
+        return {
+          url: `${productApiEndpoint}/search`,
+          params: { q, limit: size, skip: (page - 1) * size },
+        };
+      },
+      { parse: (body) => productApiResponseSchema.parse(body) },
     );
+  }
+
+  byId(id: string): Observable<ProductSchema> {
+    return this.http
+      .get<unknown>(`${productApiEndpoint}/${encodeURIComponent(id)}`)
+      .pipe(map((body) => productSchema.parse(body)));
+  }
+
+  update(id: string, changes: ProductChanges): Observable<ProductSchema> {
+    return this.http
+      .put<unknown>(`${productApiEndpoint}/${encodeURIComponent(id)}`, changes)
+      .pipe(map((body) => productSchema.parse(body)));
   }
 }
 ```
 
-`search()` ne souscrit pas elle-même : la page ou le consommateur contrôle la souscription et reçoit les résultats directement, tandis que `products`, `loading` et `error` décrivent l'état partagé. Une méthode appelée sans souscription n'effectue donc pas de requête. Choisir une seule stratégie de souscription par flux (template `async`/liaison réactive ou souscription gérée avec `takeUntilDestroyed`) et éviter les souscriptions imbriquées. Si plusieurs requêtes concurrentes peuvent modifier le même état, définir explicitement leur politique d'annulation et d'ordre (par exemple `switchMap` pour une recherche pilotée par les critères).
+</details>
 
-L'exemple suppose l'existence de `Product`, `ProductCriteria`, `ProductApi` et `toUserMessage`, qui doivent être définis avec les types et règles du projet avant de copier ce code. Ne pas stocker un message utilisateur à la place du détail technique nécessaire au diagnostic; les deux préoccupations peuvent être représentées séparément.
+`search()` crée une ressource liée au composant qui l'appelle : elle est relancée à chaque changement de `query`, annule la requête précédente et est détruite avec le composant. Les méthodes `Observable` sont froides : sans souscription, aucune requête.
 
-## 7. Notifications
+N'introduire une classe de base commune qu'après plusieurs API réelles présentant des opérations strictement identiques.
 
-Distinguer les **notifications persistantes** de l'application (centre et historique, éventuellement fournies par le serveur) des **messages temporaires** de confirmation ou d'erreur (toast). Une notification persistante peut suivre ce contrat :
+### 5.2 Lecture dans la page avec `httpResource`
+
+L'état de la page est dans l'URL (partageable, restauré au retour depuis une fiche). Les paramètres arrivent en `input()`, la requête en découle et le template affiche directement les états de la ressource : `isLoading()`, `error()`, `hasValue()`, `value()`, `reload()`.
+
+<details>
+<summary>Exemple : page de recherche (maquette 02)</summary>
 
 ```ts
-type NotificationLevel = 'info' | 'success' | 'warning' | 'error';
+@Component({
+  selector: 'app-product-search-page',
+  imports: [RouterLink, CurrencyPipe],
+  template: `
+    <form role="search" (submit)="$event.preventDefault(); search(box.value)">
+      <input #box type="search" [value]="q()" aria-label="Rechercher un produit" />
+    </form>
 
-interface AppNotification {
+    @if (products.error()) {
+      <p role="alert">Impossible de charger les produits.</p>
+      <button type="button" (click)="products.reload()">Réessayer</button>
+    } @else if (products.isLoading()) {
+      <p aria-busy="true">Chargement…</p>
+    } @else if (products.hasValue()) {
+      <ul>
+        @for (product of products.value().products; track product.id) {
+          <li>
+            <a [routerLink]="[product.id]">{{ product.title }}</a>
+            {{ product.price | currency: 'EUR' }}
+          </li>
+        } @empty {
+          <li>Aucun produit ne correspond à « {{ q() }} ».</li>
+        }
+      </ul>
+    }
+  `,
+})
+export class ProductSearchPage {
+  private readonly router = inject(Router);
+
+  // Paramètres d'URL reçus via withComponentInputBinding()
+  readonly q = input('');
+  readonly page = input(1, { transform: numberAttribute });
+
+  private readonly query = computed(() => ({ q: this.q(), page: this.page(), size: 20 }));
+  protected readonly products = inject(ProductApi).search(this.query);
+
+  protected search(q: string): void {
+    void this.router.navigate(['/products'], { queryParams: { q: q.trim() || null, page: null } });
+  }
+}
+```
+
+</details>
+
+La recherche « à la frappe » (délai de 300 ms dans la maquette) se fait en mettant à jour l'URL depuis un flux `debounceTime` sur l'événement `input` ; l'utilitaire `debounced()` d'Angular est encore expérimental en 22.
+
+### 5.3 État partagé : store à signaux
+
+Un store expose un état en lecture seule (`asReadonly()`, `computed()`) et des méthodes typées qui le modifient. L'appelant n'écrit jamais directement dans les signaux. Exemple complet : `NotificationStore` au § 9.
+
+Ne pas créer de store pour l'état d'un seul écran : un `signal()` ou une ressource dans la page suffit.
+
+## 6. Formulaires
+
+Utiliser **Signal Forms**, stables depuis Angular 22 : le modèle est un signal, les règles sont déclarées dans un schéma, le template lie chaque champ par `[formField]`. `[formRoot]` gère `novalidate`, `preventDefault` et la soumission.
+
+Points d'usage :
+
+- Le modèle provient d'un `linkedSignal()` sur le produit résolu : il se réinitialise si la route change de produit.
+- Messages d'erreur dans le schéma (`{ message }`) ; affichage conditionné à `touched()`.
+- `dirty()`, `submitting()`, `invalid()` pilotent les boutons et le guard de sortie.
+- L'action de soumission renvoie `undefined` en cas de succès ou une erreur `{ kind, message }` qui est rattachée au formulaire.
+- Pour réutiliser les règles Zod existantes : `validateStandardSchema(p, schema)` ; garder des règles explicites lorsque les messages doivent être spécifiques.
+
+<details>
+<summary>Exemple : page de modification (maquette 04)</summary>
+
+```ts
+@Component({
+  selector: 'app-product-edit-page',
+  imports: [FormRoot, FormField],
+  template: `
+    <form [formRoot]="productForm">
+      <label>
+        Titre
+        <input [formField]="productForm.title" />
+      </label>
+      @if (productForm.title().touched()) {
+        @for (error of productForm.title().errors(); track error.kind) {
+          <p class="error">{{ error.message }}</p>
+        }
+      }
+
+      <label>
+        Prix
+        <input type="number" step="0.01" [formField]="productForm.price" />
+      </label>
+
+      <button type="submit" [disabled]="!productForm().dirty() || productForm().submitting()">
+        {{ productForm().submitting() ? 'Enregistrement…' : 'Enregistrer' }}
+      </button>
+    </form>
+  `,
+})
+export class ProductEditPage implements HasUnsavedChanges {
+  private readonly api = inject(ProductApi);
+  private readonly router = inject(Router);
+  private readonly notifications = inject(NotificationStore);
+
+  readonly product = input.required<ProductSchema>();
+
+  // Modèle du formulaire, réinitialisé si le produit résolu change.
+  protected readonly model = linkedSignal<ProductChanges>(() => {
+    const { id: _id, ...changes } = this.product();
+    return changes;
+  });
+
+  protected readonly productForm = form(
+    this.model,
+    (p) => {
+      required(p.title, { message: 'Le titre est obligatoire.' });
+      minLength(p.title, 3, { message: '3 caractères minimum.' });
+      maxLength(p.title, 100, { message: '100 caractères maximum.' });
+      min(p.price, 0, { message: 'Le prix doit être supérieur ou égal à 0.' });
+      required(p.description, { message: 'La description est obligatoire.' });
+      maxLength(p.description, 1000, { message: '1 000 caractères maximum.' });
+      pattern(p.thumbnail, /^https:\/\//, { message: 'URL https:// attendue.' });
+    },
+    {
+      submission: {
+        action: async (f) => {
+          try {
+            const saved = await firstValueFrom(this.api.update(this.product().id, f().value()));
+            f().reset();
+            this.notifications.add({ level: 'success', title: 'Produit enregistré', message: saved.title });
+            await this.router.navigate(['/products', saved.id]);
+            return undefined;
+          } catch {
+            return { kind: 'server', message: "L'enregistrement a échoué. Réessayez." };
+          }
+        },
+      },
+    },
+  );
+
+  hasUnsavedChanges(): boolean {
+    return this.productForm().dirty();
+  }
+}
+```
+
+</details>
+
+`f().reset()` remet `dirty` à `false` avant la navigation, ce qui évite la confirmation du guard de sortie après un enregistrement réussi. DummyJSON simule les écritures : la fiche rechargée affichera la valeur d'origine tant qu'aucun backend réel n'est branché.
+
+## 7. Routing, guards et resolvers
+
+| Route | Écran | Guards | Resolver |
+| --- | --- | --- | --- |
+| `/login?returnUrl=` | Connexion | `guestGuard` | — |
+| `/products?q=&page=` | Recherche | `authGuard` (parent) | — |
+| `/products/:id` | Détail | `authGuard` (parent) | `productResolver` |
+| `/products/:id/edit` | Modification | `authGuard` (parent), `unsavedChangesGuard` | `productResolver` |
+| `/notifications?status=&level=` | Notifications | `authGuard` (parent) | — |
+| `/not-found`, `**` | Page introuvable | — | — |
+
+Règles :
+
+- Fonctions uniquement (`CanActivateFn`, `CanDeactivateFn`, `ResolveFn`), `inject()` en début de fonction.
+- Un guard refuse en renvoyant une `UrlTree` ; un resolver redirige en renvoyant une `RedirectCommand`. Pas de `router.navigate()` dans un guard.
+- Un resolver ne charge que ce sans quoi la page ne peut s'afficher (produit du détail). Les listes se chargent dans la page.
+- `authGuard` est posé une fois sur la route parente des écrans authentifiés.
+- Un guard client améliore le parcours ; il ne protège pas l'API. Les droits sont vérifiés par le serveur.
+
+<details>
+<summary>Exemple : routes et configuration</summary>
+
+```ts
+// app.routes.ts
+export const routes: Routes = [
+  { path: 'login', canActivate: [guestGuard], loadComponent: () => import('./features/auth/pages/login-page') },
+  {
+    path: '',
+    canActivate: [authGuard],
+    children: [
+      { path: 'products', loadChildren: () => import('./features/products/products.routes') },
+      { path: 'notifications', loadComponent: () => import('./features/notifications/pages/notifications-page') },
+      { path: '', pathMatch: 'full', redirectTo: 'products' },
+    ],
+  },
+  { path: '**', loadComponent: () => import('./shell/not-found-page') },
+];
+
+// features/products/products.routes.ts
+export default [
+  { path: '', component: ProductSearchPage, title: 'Produits' },
+  { path: ':id', component: ProductDetailPage, resolve: { product: productResolver } },
+  {
+    path: ':id/edit',
+    component: ProductEditPage,
+    resolve: { product: productResolver },
+    canDeactivate: [unsavedChangesGuard],
+  },
+] satisfies Routes;
+```
+
+`loadComponent: () => import('…')` sans `.then()` suppose que le composant est l'export par défaut du fichier.
+
+</details>
+
+<details>
+<summary>Exemple : guards et resolver</summary>
+
+```ts
+export const authGuard: CanActivateFn = (_route, state) => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  return auth.isAuthenticated() || router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
+};
+
+export const guestGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  return auth.isAuthenticated() ? router.createUrlTree(['/products']) : true;
+};
+
+export interface HasUnsavedChanges {
+  hasUnsavedChanges(): boolean;
+}
+
+export const unsavedChangesGuard: CanDeactivateFn<HasUnsavedChanges> = (component) =>
+  !component.hasUnsavedChanges() || window.confirm('Quitter sans enregistrer ?');
+
+export const productResolver: ResolveFn<ProductSchema> = (route) => {
+  const router = inject(Router);
+  return inject(ProductApi)
+    .byId(route.paramMap.get('id') ?? '')
+    .pipe(
+      catchError((error: unknown) =>
+        error instanceof HttpErrorResponse && error.status === 404
+          ? of(new RedirectCommand(router.parseUrl('/not-found')))
+          : throwError(() => error),
+      ),
+    );
+};
+```
+
+`window.confirm` est une première étape ; la maquette prévoit un dialogue applicatif qui pourra le remplacer sans changer le contrat `HasUnsavedChanges`.
+
+</details>
+
+## 8. HTTP et interceptors
+
+N'enregistrer que des interceptors répondant à un besoin établi, dans cet ordre :
+
+1. **Authentification** : ajoute le jeton, uniquement vers l'origine de l'API.
+2. **Session expirée** : sur un `401` alors qu'une session existe, ferme la session et renvoie vers `/login?returnUrl=…`, puis relance l'erreur.
+
+Les erreurs métier (validation, 404, conflit) restent gérées par l'écran concerné. Un interceptor ne transforme jamais une erreur en succès et n'affiche pas de toast global. Pas de retry automatique sur une écriture.
+
+<details>
+<summary>Exemple : <code>app.config.ts</code> et interceptors</summary>
+
+```ts
+// main.ts : données de locale pour les pipes
+registerLocaleData(localeFr);
+
+// config/app.config.ts
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes, withComponentInputBinding()),
+    provideHttpClient(withInterceptors([authInterceptor, unauthorizedInterceptor])),
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+  ],
+};
+
+// core/auth/auth.interceptors.ts
+const apiOrigin = new URL(productApiEndpoint).origin;
+
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const token = inject(AuthService).token();
+  if (!token || new URL(req.url, location.origin).origin !== apiOrigin) {
+    return next(req);
+  }
+  return next(req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }));
+};
+
+export const unauthorizedInterceptor: HttpInterceptorFn = (req, next) => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  return next(req).pipe(
+    catchError((error: unknown) => {
+      if (error instanceof HttpErrorResponse && error.status === 401 && auth.isAuthenticated()) {
+        auth.logout();
+        void router.navigate(['/login'], { queryParams: { returnUrl: router.url } });
+      }
+      return throwError(() => error);
+    }),
+  );
+};
+```
+
+`AuthService` expose au minimum `isAuthenticated`, `token` et `user` sous forme de `computed()` sur un signal de session privé, ainsi que `login()` / `logout()`.
+
+</details>
+
+## 9. Notifications
+
+Deux mécanismes distincts :
+
+| | Notification persistante | Toast |
+| --- | --- | --- |
+| Usage | Historique consultable (écran 05), compteur du menu | Confirmation ou erreur immédiate, éphémère |
+| Source | `NotificationStore` | Service de toast (à créer avec l'écran) |
+| Accessibilité | Liste, niveau affiché en texte | `role="status"` / `role="alert"`, fermeture clavier |
+
+L'état commence en mémoire. La persistance (serveur ou stockage local) s'ajoute derrière les mêmes méthodes du store, sans changer les écrans.
+
+<details>
+<summary>Exemple : modèle et <code>NotificationStore</code></summary>
+
+```ts
+export type NotificationLevel = 'info' | 'success' | 'warning' | 'error';
+
+export interface AppNotification {
   readonly id: string;
   readonly level: NotificationLevel;
   readonly title: string;
   readonly message: string;
   readonly createdAt: string;
   readonly readAt: string | null;
-  readonly action?: {
-    readonly label: string;
-    readonly routerLink: string;
-  };
+  readonly action?: { readonly label: string; readonly link: string };
+}
+
+export type NewNotification = Pick<AppNotification, 'level' | 'title' | 'message' | 'action'>;
+
+@Injectable({ providedIn: 'root' })
+export class NotificationStore {
+  private readonly _items = signal<readonly AppNotification[]>([]);
+
+  readonly items = this._items.asReadonly();
+  readonly unreadCount = computed(() => this._items().filter((n) => n.readAt === null).length);
+
+  add(notification: NewNotification): void {
+    const created: AppNotification = {
+      ...notification,
+      id: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+      readAt: null,
+    };
+    this._items.update((items) => [created, ...items]);
+  }
+
+  markAsRead(id: string): void {
+    const now = new Date().toISOString();
+    this._items.update((items) =>
+      items.map((n) => (n.id === id && n.readAt === null ? { ...n, readAt: now } : n)),
+    );
+  }
+
+  markAllAsRead(): void {
+    const now = new Date().toISOString();
+    this._items.update((items) => items.map((n) => (n.readAt === null ? { ...n, readAt: now } : n)));
+  }
+
+  remove(id: string): void {
+    this._items.update((items) => items.filter((n) => n.id !== id));
+  }
 }
 ```
 
-Le service de notifications expose la collection et le compteur non lus en lecture seule; ses opérations typées permettent d'ajouter, marquer comme lue ou supprimer une notification. Le composant de toast gère durée, fermeture accessible et annonce aux technologies d'assistance; il ne constitue pas l'historique persistant. Ne pas diffuser automatiquement chaque erreur interceptée sous forme de toast : les erreurs attendues (validation, absence de résultat, accès refusé) sont traitées par le flux ou la page qui sait les contextualiser. Les événements affichés dans les maquettes existantes sont illustratifs, pas un contrat de données.
+Les filtres de l'écran (statut, niveau) sont des `computed()` dans la page à partir de `items()` et des paramètres d'URL ; le store n'a pas à les connaître.
 
-## 8. Routing, guards et resolvers
+</details>
 
-### Flux cible
+## 10. Pipes, directives et composants partagés
 
-1. `app.routes.ts` définit le shell, les routes racines et les pages de repli (`not-found` et erreur si nécessaire).
-2. Les fonctionnalités sont chargées à la demande avec `loadChildren` pour un ensemble de routes de domaine, ou `loadComponent` pour une page isolée.
-3. La navigation passe par un guard fonctionnel si elle dépend d'un état d'authentification ou d'autorisation client; un refus retourne une `UrlTree` vers la destination appropriée plutôt que de déclencher une navigation impérative dans le guard.
-4. Un resolver ne précharge que les données indispensables à l'affichage initial d'une route et renvoie une erreur explicite ou une redirection décidée par la route en cas d'échec.
-5. Le composant de page consomme les données résolues et orchestre les interactions suivantes avec les services du domaine.
+- **Pipes** : transformation pure et synchrone réutilisée dans les templates. Utiliser d'abord `currency`, `date`, `number` (locale `fr-FR`). Jamais d'appel réseau ni de logique métier.
+- **Directives** : comportement d'interface réutilisable sans template (ex. `appAutofocus` pour le focus initial de la connexion), avec `input()` et `host`.
+- **Composants partagés** : API `input()` / `output()` stable, une responsabilité. Rester dans la feature tant qu'un seul domaine les utilise.
+- **Images produit** : `NgOptimizedImage` (`ngSrc`, `width`, `height`) avec image de repli en cas d'erreur.
 
-### Règles d'emploi
+## 11. Tests
 
-- Utiliser des guards fonctionnels (`CanActivateFn`, `CanMatchFn`) et réserver chaque guard à une vraie règle de navigation. Un guard côté client améliore le parcours, mais ne sécurise jamais une API : les permissions doivent être vérifiées côté serveur.
-- Préférer `CanMatch` pour exclure une configuration de route ou sélectionner une branche; employer `CanActivate` pour décider de l'accès à une route déjà reconnue.
-- Utiliser un resolver lorsque la route ne peut raisonnablement pas s'afficher sans les données. Ne pas bloquer la navigation pour des données secondaires ou rafraîchissables en arrière-plan.
-- Conserver filtres, pagination et identifiants partageables dans les paramètres URL appropriés. Valider les paramètres de route et gérer explicitement les identifiants inconnus.
-- Fournir `withComponentInputBinding()` uniquement si les pages l'utilisent pour recevoir les paramètres ou données de route via des entrées.
-- Couvrir les routes inconnues et éviter les redirections circulaires entre guard, resolver et route de connexion.
+- Runner : Vitest via `ng test` (déjà configuré).
+- HTTP : `provideHttpClient()` + `provideHttpClientTesting()`, puis `HttpTestingController`.
+- Composants : `TestBed.createComponent`, `fixture.componentRef.setInput()` pour les entrées, `await fixture.whenStable()` (pas de zone : pas de `fakeAsync`).
+- Priorités : validation des schémas (cas valides et invalides), règles de formulaire, guards et resolvers (redirections), états de chargement / vide / erreur des pages.
 
-## 9. Interceptors HTTP
+## 12. Mise en œuvre progressive
 
-Enregistrer des interceptors **fonctionnels** dans `app.config.ts` avec `provideHttpClient(withInterceptors([...]))`. N'ajouter que ceux correspondant à des besoins établis, dans un ordre documenté :
+1. **Fondations** : déclarer `zod`, corriger le type de `id` et l'endpoint `https`, compléter le schéma de liste (`total`, `skip`, `limit`), activer `strict` et `strictTemplates`.
+2. **Configuration** : `provideHttpClient`, `withComponentInputBinding`, locale `fr-FR`, route `**`.
+3. **Produits en lecture** : `ProductApi`, page de recherche, resolver et page de détail, avec les états de chargement, vide et erreur.
+4. **Produits en écriture** : page de modification en Signal Forms, `unsavedChangesGuard`.
+5. **Authentification** : `AuthService`, page de connexion, `authGuard` / `guestGuard`, interceptors.
+6. **Notifications** : `NotificationStore`, écran récapitulatif, badge du menu, toasts.
 
-1. **Authentification** : joindre un jeton uniquement aux appels de confiance concernés; ne jamais envoyer des identifiants à une origine arbitraire.
-2. **Corrélation / diagnostic** : ajouter un identifiant de requête si l'infrastructure le prend en charge; exclure les données sensibles des journaux.
-3. **Erreurs HTTP transversales** : journaliser de manière sûre ou convertir les réponses en erreur applicative typée, puis relancer l'erreur. L'interceptor ne doit pas masquer les erreurs ni inventer une réponse de succès.
-4. **Indicateur global de chargement**, seulement si l'application en a réellement besoin : ignorer explicitement les requêtes non bloquantes et éviter les compteurs déséquilibrés avec `finalize`.
-
-Les retries sont réservés aux opérations idempotentes et aux erreurs transitoires, avec une limite et une temporisation bornées. Ne pas rejouer automatiquement une mutation sans garantie d'idempotence. Les erreurs qui nécessitent un contexte métier restent gérées par la fonctionnalité.
-
-## 10. Mise en œuvre progressive
-
-1. Formaliser les modèles et valider à l'exécution les réponses externes, en alignant d'abord les dépendances du schéma produit.
-2. Implémenter l'accès HTTP et le service réactif du premier domaine (produits), puis couvrir chargement, succès, liste vide et erreur.
-3. Ajouter les routes de fonctionnalités, puis les guards et resolvers uniquement au besoin d'une route concrète.
-4. Ajouter le modèle de notifications et les interceptors lorsque leurs cas d'usage et règles de sécurité sont confirmés.
-5. Faire évoluer les conventions communes après plusieurs usages réels et tests, sans créer préventivement une bibliothèque d'abstractions.
+Chaque étape est livrée avec ses tests. Une abstraction commune n'est extraite qu'après un deuxième usage réel.

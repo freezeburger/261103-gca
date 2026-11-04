@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1000" viewBox="0 0 1440 1000" fill="none">
+  <defs>
+    <linearGradient id="wash" x1="0" y1="0" x2="720" y2="1000" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E9EFFF"/><stop offset="1" stop-color="#F6F3FF"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#5668E8"/><stop offset="1" stop-color="#7859D9"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="2" height="2" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+  </defs>
+  <rect width="1440" height="1000" fill="#F8F9FC"/>
+  <path d="M0 0h720v1000H0z" fill="url(#wash)"/>
+  <circle cx="560" cy="215" r="205" fill="#D9DEFF" opacity=".55"/>
+  <circle cx="106" cy="875" r="260" fill="#E8DFFF" opacity=".5"/>
+  <rect x="84" y="72" width="46" height="46" rx="14" fill="url(#accent)"/>
+  <path d="M97 95h20M107 85v20" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <text x="146" y="103" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700" fill="#202544">atelier</text>
+  <text x="84" y="350" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="2.4" fill="#5966C8">ESPACE DE GESTION</text>
+  <text x="84" y="423" font-family="Inter,Arial,sans-serif" font-size="56" font-weight="750" fill="#202544">Tout votre catalogue,</text>
+  <text x="84" y="491" font-family="Inter,Arial,sans-serif" font-size="56" font-weight="750" fill="#202544">au même endroit.</text>
+  <text x="84" y="547" font-family="Inter,Arial,sans-serif" font-size="20" fill="#69708A">Retrouvez et gérez vos produits simplement</text>
+  <text x="84" y="579" font-family="Inter,Arial,sans-serif" font-size="20" fill="#69708A">depuis votre espace de travail.</text>
+  <rect x="84" y="675" width="480" height="158" rx="22" fill="white" opacity=".76"/>
+  <rect x="108" y="701" width="64" height="64" rx="18" fill="#EEF0FF"/>
+  <path d="M126 722h28v23h-28zM132 716h16v6h-16z" stroke="#5868DB" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="194" y="728" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700" fill="#303653">Une vue claire de vos produits</text>
+  <text x="194" y="759" font-family="Inter,Arial,sans-serif" font-size="15" fill="#777D94">Recherche, détails et modifications réunis</text>
+  <text x="194" y="783" font-family="Inter,Arial,sans-serif" font-size="15" fill="#777D94">dans une interface pensée pour vous.</text>
+  <text x="84" y="936" font-family="Inter,Arial,sans-serif" font-size="14" fill="#8A90A4">© 2026 Atelier · Espace professionnel</text>
+  <rect x="866" y="160" width="464" height="680" rx="28" fill="#B7BDD0" opacity=".16"/>
+  <rect x="850" y="144" width="464" height="680" rx="28" fill="white"/>
+  <text x="900" y="222" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="700" fill="#202544">Bienvenue</text>
+  <text x="900" y="258" font-family="Inter,Arial,sans-serif" font-size="16" fill="#777D94">Connectez-vous à votre espace de gestion.</text>
+  <text x="900" y="329" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="650" fill="#303653">Adresse e-mail</text>
+  <rect x="900" y="346" width="364" height="56" rx="10" fill="white" stroke="#DDE1EC"/>
+  <text x="920" y="381" font-family="Inter,Arial,sans-serif" font-size="15" fill="#A0A5B5">nom@entreprise.fr</text>
+  <text x="900" y="446" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="650" fill="#303653">Mot de passe</text>
+  <rect x="900" y="463" width="364" height="56" rx="10" fill="white" stroke="#DDE1EC"/>
+  <text x="920" y="498" font-family="Inter,Arial,sans-serif" font-size="18" letter-spacing="4" fill="#888EA2">••••••••••</text>
+  <text x="1133" y="550" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="600" fill="#5966C8">Mot de passe oublié ?</text>
+  <rect x="900" y="584" width="364" height="56" rx="11" fill="url(#accent)"/>
+  <text x="1031" y="619" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="700" fill="white">Se connecter</text>
+  <path d="M900 690h364" stroke="#ECEEF4"/>
+  <text x="916" y="731" font-family="Inter,Arial,sans-serif" font-size="13" fill="#9197A9">Accès réservé aux utilisateurs autorisés.</text>
+  <text x="900" y="777" font-family="Inter,Arial,sans-serif" font-size="13" fill="#A0A5B5">Besoin d'aide ? Contactez votre administrateur.</text>
+</svg>

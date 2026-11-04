@@ -1,7 +1,9 @@
 # Architecture applicative
 
 > **Cible :** Angular 22.2 (version installée), standalone, sans zone.js, composants `OnPush` par défaut.
+
 > **Statut :** socle de conventions. Les exemples décrivent la cible ; ils ne supposent pas que les fichiers existent déjà.
+>
 > Les écrans de référence sont les [maquettes fonctionnelles](../maquette).
 
 ## Sommaire
@@ -25,8 +27,9 @@
 | --- | --- |
 | Composants | Standalone, `inject()`, `input()` / `output()` / `model()`, contrôle de flux `@if` / `@for` / `@switch`. |
 | Réactivité | Signaux pour l'état et les dérivations (`signal`, `computed`, `linkedSignal`). RxJS seulement pour les flux d'événements. |
-| Lecture de données | `httpResource()` déclaré dans la page, alimenté par des signaux (souvent les paramètres d'URL). |
-| Écriture de données | Méthodes d'une API de domaine retournant un `Observable` ; pas de classe CRUD générique. |
+| Accès HTTP | `HttpClient` encapsulé par la classe abstraite `ApiService` ; un service d'API par domaine en hérite (`ProductApi extends ApiService`). |
+| Lecture de données | Méthode `Observable` du service d'API, exposée à la page en signaux via `rxResource()` (paramètres issus de l'URL). |
+| Écriture de données | Méthode `Observable` du service d'API, appelée depuis une action (soumission de formulaire). |
 | Validation des réponses | Schémas Zod existants (`core/schemas`), appliqués à la frontière HTTP. |
 | Formulaires | Signal Forms (`@angular/forms/signals`) : `form()`, `[formField]`, `[formRoot]`. |
 | État partagé | Service `providedIn: 'root'` à signaux, uniquement si plusieurs écrans partagent l'état (session, notifications). |
@@ -58,13 +61,15 @@ src/app/
     schemas/                    # schémas Zod partagés
   features/
     products/
-      product-api.ts            # accès HTTP + validation
+      product-api.ts            # ProductApi extends ApiService
       products.routes.ts        # routes du domaine (export default)
       product-resolver.ts
       pages/                    # product-search, product-detail, product-edit
       ui/                       # composants propres au domaine
     auth/pages/login/
     notifications/pages/
+  infra/
+    api/api-service.ts          # classe abstraite encapsulant HttpClient
   components/ directives/ pipes/   # partagés, seulement après un 2e usage réel
 ```
 
@@ -73,7 +78,7 @@ Règles :
 - Un fichier par composant (`product-search-page.ts` + `.html` si le template dépasse ~30 lignes).
 - Commencer à plat dans la feature ; créer un sous-dossier quand il y a plusieurs fichiers du même type.
 - `core` ne contient pas de composants visuels. Un composant ne migre vers `components/` qu'une fois réutilisé par un deuxième domaine.
-- Le dossier `infra/` existant n'est utile qu'en cas d'adaptateur technique réel (stockage, télémétrie) ; ne pas l'alimenter par anticipation.
+- `infra/` regroupe les adaptateurs techniques sans logique métier : `ApiService` pour HTTP, puis, au besoin réel, stockage ou télémétrie.
 
 ## 4. Conventions Angular 22
 
@@ -94,7 +99,7 @@ Règles :
 | État local modifiable | `signal()` |
 | Valeur dérivée | `computed()` |
 | État modifiable réinitialisé par une source (ex. modèle de formulaire depuis le produit résolu) | `linkedSignal()` |
-| Données distantes en lecture | `httpResource()` (ou `rxResource()` si la source est un `Observable`) |
+| Données distantes en lecture | `rxResource()` sur une méthode du service d'API |
 | Action ponctuelle (enregistrer, supprimer) | `Observable` de l'API, converti avec `firstValueFrom` dans une action async |
 | Flux d'événements (debounce, annulation, websocket) | RxJS, puis `toSignal()` pour l'affichage |
 | Effet de bord vers l'extérieur (stockage local, focus) | `effect()` — jamais pour synchroniser deux signaux |
@@ -131,21 +136,106 @@ export class ProductRow {
 
 ## 5. Données : lecture, écriture, état partagé
 
-Trois patterns suffisent à ce stade. Le choix dépend de l'usage, pas de la ressource.
+Un socle (`ApiService`) et trois patterns d'usage suffisent à ce stade. Le choix dépend de l'usage, pas de la ressource.
 
 | Cas | Pattern | Écran |
 | --- | --- | --- |
-| Lire des données qui dépendent de l'écran | `httpResource()` dans la page | Recherche produits |
+| Accéder au backend | Service d'API héritant d'`ApiService` | Tous |
+| Lire des données qui dépendent de l'écran | `rxResource()` dans la page | Recherche produits |
 | Lire des données indispensables à l'affichage d'une route | Resolver + `input()` | Détail, modification |
-| Modifier des données | Méthode de l'API de domaine | Modification |
+| Modifier des données | Méthode du service d'API dans l'action de soumission | Modification |
 | Partager un état entre écrans | Store à signaux `providedIn: 'root'` | Notifications, session |
 
-### 5.1 API de domaine
+### 5.1 Services d'API : `ApiService`
 
-Une classe par domaine centralise URL, paramètres et validation. Les composants ne construisent jamais de requête HTTP. Les réponses sont validées avec le schéma Zod via l'option `parse` de `httpResource` ou un `map` sur l'`Observable`.
+Tout accès HTTP passe par un service de domaine héritant de la classe abstraite `ApiService` (`infra/api/api-service.ts`). Elle encapsule `HttpClient` et fournit des helpers protégés qui :
+
+- construisent l'URL à partir de `baseUrl` et de segments encodés (`encodeURIComponent`) ;
+- ignorent les paramètres de requête `null`, `undefined` ou vides ;
+- valident chaque réponse avec un schéma (`parse`), compatible avec les schémas Zod de `core/schemas` ;
+- retournent des `Observable` froids : aucune requête sans souscription, ni état interne, ni retry. Les erreurs HTTP et de validation sont propagées telles quelles.
+
+Un service concret ne déclare que son `baseUrl` et des méthodes métier d'une ligne. Les composants ne manipulent jamais `HttpClient` directement.
 
 <details>
-<summary>Exemple : <code>ProductApi</code></summary>
+<summary>Exemple : classe abstraite <code>ApiService</code></summary>
+
+```ts
+/** Schéma de validation d'une réponse (compatible avec les schémas Zod). */
+export interface ResponseSchema<T> {
+  parse(input: unknown): T;
+}
+
+/** Segments de chemin relatifs à `baseUrl`, encodés individuellement. */
+export type ApiPath = string | number | readonly (string | number)[];
+
+/** Paramètres de requête ; `null`, `undefined` et chaîne vide sont ignorés. */
+export type ApiQuery = Readonly<Record<string, string | number | boolean | null | undefined>>;
+
+export abstract class ApiService {
+  protected readonly http = inject(HttpClient);
+
+  protected abstract readonly baseUrl: string;
+
+  protected get<T>(path: ApiPath, schema: ResponseSchema<T>, query?: ApiQuery): Observable<T> {
+    return this.http
+      .get<unknown>(this.url(path), { params: toParams(query) })
+      .pipe(map((body) => schema.parse(body)));
+  }
+
+  protected post<T>(path: ApiPath, body: unknown, schema: ResponseSchema<T>, query?: ApiQuery): Observable<T> {
+    return this.http
+      .post<unknown>(this.url(path), body, { params: toParams(query) })
+      .pipe(map((response) => schema.parse(response)));
+  }
+
+  protected put<T>(path: ApiPath, body: unknown, schema: ResponseSchema<T>, query?: ApiQuery): Observable<T> {
+    return this.http
+      .put<unknown>(this.url(path), body, { params: toParams(query) })
+      .pipe(map((response) => schema.parse(response)));
+  }
+
+  protected patch<T>(path: ApiPath, body: unknown, schema: ResponseSchema<T>, query?: ApiQuery): Observable<T> {
+    return this.http
+      .patch<unknown>(this.url(path), body, { params: toParams(query) })
+      .pipe(map((response) => schema.parse(response)));
+  }
+
+  protected delete(path: ApiPath, query?: ApiQuery): Observable<void> {
+    return this.http
+      .delete<unknown>(this.url(path), { params: toParams(query) })
+      .pipe(map(() => undefined));
+  }
+
+  private url(path: ApiPath): string {
+    const segments: readonly (string | number)[] = Array.isArray(path) ? path : [path];
+    const suffix = segments
+      .map((segment) => String(segment))
+      .filter((segment) => segment !== '')
+      .map((segment) => encodeURIComponent(segment))
+      .join('/');
+    const base = this.baseUrl.replace(/\/+$/, '');
+    return suffix ? `${base}/${suffix}` : base;
+  }
+}
+
+function toParams(query: ApiQuery | undefined): HttpParams {
+  let params = new HttpParams();
+  for (const [key, value] of Object.entries(query ?? {})) {
+    if (value !== null && value !== undefined && value !== '') {
+      params = params.set(key, String(value));
+    }
+  }
+  return params;
+}
+```
+
+Les helpers sont `protected` : seule l'API métier du service concret est publique.
+
+</details>
+
+<details>
+<summary>Exemple : <code>ProductApi extends ApiService</code></summary>
 
 ```ts
 export interface ProductQuery {
@@ -157,46 +247,35 @@ export interface ProductQuery {
 export type ProductChanges = Omit<ProductSchema, 'id'>;
 
 @Injectable({ providedIn: 'root' })
-export class ProductApi {
-  private readonly http = inject(HttpClient);
+export class ProductApi extends ApiService {
+  protected readonly baseUrl = productApiEndpoint;
 
-  /** Lecture réactive : à appeler dans un contexte d'injection (champ de composant). */
-  search(query: Signal<ProductQuery>) {
-    return httpResource(
-      () => {
-        const { q, page, size } = query();
-        return {
-          url: `${productApiEndpoint}/search`,
-          params: { q, limit: size, skip: (page - 1) * size },
-        };
-      },
-      { parse: (body) => productApiResponseSchema.parse(body) },
-    );
+  search({ q, page, size }: ProductQuery): Observable<ProductApiResponseSchema> {
+    return this.get('search', productApiResponseSchema, { q, limit: size, skip: (page - 1) * size });
   }
 
   byId(id: string): Observable<ProductSchema> {
-    return this.http
-      .get<unknown>(`${productApiEndpoint}/${encodeURIComponent(id)}`)
-      .pipe(map((body) => productSchema.parse(body)));
+    return this.get(id, productSchema);
   }
 
   update(id: string, changes: ProductChanges): Observable<ProductSchema> {
-    return this.http
-      .put<unknown>(`${productApiEndpoint}/${encodeURIComponent(id)}`, changes)
-      .pipe(map((body) => productSchema.parse(body)));
+    return this.put(id, changes, productSchema);
   }
 }
 ```
 
 </details>
 
-`search()` crée une ressource liée au composant qui l'appelle : elle est relancée à chaque changement de `query`, annule la requête précédente et est détruite avec le composant. Les méthodes `Observable` sont froides : sans souscription, aucune requête.
+Règles :
 
-N'introduire une classe de base commune qu'après plusieurs API réelles présentant des opérations strictement identiques.
+- Un service d'API par domaine (`ProductApi`, `AuthApi`, `NotificationApi`), `providedIn: 'root'`, sans état.
+- Ne pas exposer de méthode générique `list` / `create` dans `ApiService` : chaque domaine décrit les opérations réellement offertes par son backend.
+- Une réponse enveloppée (ex. `{ products: [...] }`) est validée par son propre schéma ; le service peut la déballer avec `map` si les écrans n'ont besoin que de la liste.
+- Le jeton, la gestion du `401` et la journalisation relèvent des interceptors (§ 8), pas d'`ApiService`.
 
-### 5.2 Lecture dans la page avec `httpResource`
+### 5.2 Lecture dans la page avec `rxResource`
 
-L'état de la page est dans l'URL (partageable, restauré au retour depuis une fiche). Les paramètres arrivent en `input()`, la requête en découle et le template affiche directement les états de la ressource : `isLoading()`, `error()`, `hasValue()`, `value()`, `reload()`.
+L'état de la page est dans l'URL (partageable, restauré au retour depuis une fiche). Les paramètres arrivent en `input()`, et `rxResource()` appelle la méthode du service d'API à chaque changement : la requête précédente est annulée, la ressource est détruite avec le composant, et le template lit les états en signaux : `isLoading()`, `error()`, `hasValue()`, `value()`, `reload()`.
 
 <details>
 <summary>Exemple : page de recherche (maquette 02)</summary>
@@ -230,14 +309,17 @@ L'état de la page est dans l'URL (partageable, restauré au retour depuis une f
   `,
 })
 export class ProductSearchPage {
+  private readonly api = inject(ProductApi);
   private readonly router = inject(Router);
 
   // Paramètres d'URL reçus via withComponentInputBinding()
   readonly q = input('');
   readonly page = input(1, { transform: numberAttribute });
 
-  private readonly query = computed(() => ({ q: this.q(), page: this.page(), size: 20 }));
-  protected readonly products = inject(ProductApi).search(this.query);
+  protected readonly products = rxResource({
+    params: () => ({ q: this.q(), page: this.page(), size: 20 }),
+    stream: ({ params }) => this.api.search(params),
+  });
 
   protected search(q: string): void {
     void this.router.navigate(['/products'], { queryParams: { q: q.trim() || null, page: null } });
@@ -580,14 +662,15 @@ Les filtres de l'écran (statut, niveau) sont des `computed()` dans la page à p
 
 - Runner : Vitest via `ng test` (déjà configuré).
 - HTTP : `provideHttpClient()` + `provideHttpClientTesting()`, puis `HttpTestingController`.
+- `ApiService` : tester via une sous-classe de test minimale (URL et encodage des segments, paramètres vides ignorés, verbe et corps, réponse validée, rejet d'une réponse invalide, propagation d'une erreur HTTP). Les services concrets ne testent que leurs URL et paramètres.
 - Composants : `TestBed.createComponent`, `fixture.componentRef.setInput()` pour les entrées, `await fixture.whenStable()` (pas de zone : pas de `fakeAsync`).
 - Priorités : validation des schémas (cas valides et invalides), règles de formulaire, guards et resolvers (redirections), états de chargement / vide / erreur des pages.
 
 ## 12. Mise en œuvre progressive
 
 1. **Fondations** : déclarer `zod`, corriger le type de `id` et l'endpoint `https`, compléter le schéma de liste (`total`, `skip`, `limit`), activer `strict` et `strictTemplates`.
-2. **Configuration** : `provideHttpClient`, `withComponentInputBinding`, locale `fr-FR`, route `**`.
-3. **Produits en lecture** : `ProductApi`, page de recherche, resolver et page de détail, avec les états de chargement, vide et erreur.
+2. **Configuration et accès HTTP** : `provideHttpClient`, `withComponentInputBinding`, locale `fr-FR`, route `**`, classe abstraite `ApiService` et ses tests.
+3. **Produits en lecture** : `ProductApi extends ApiService`, page de recherche (`rxResource`), resolver et page de détail, avec les états de chargement, vide et erreur.
 4. **Produits en écriture** : page de modification en Signal Forms, `unsavedChangesGuard`.
 5. **Authentification** : `AuthService`, page de connexion, `authGuard` / `guestGuard`, interceptors.
 6. **Notifications** : `NotificationStore`, écran récapitulatif, badge du menu, toasts.

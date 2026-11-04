@@ -1,48 +1,110 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1000" viewBox="0 0 1440 1000" fill="none">
-  <defs>
-    <linearGradient id="wash" x1="0" y1="0" x2="720" y2="1000" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#E9EFFF"/><stop offset="1" stop-color="#F6F3FF"/>
-    </linearGradient>
-    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
-      <stop stop-color="#5668E8"/><stop offset="1" stop-color="#7859D9"/>
-    </linearGradient>
-    <filter id="shadow" x="0" y="0" width="2" height="2" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="24"/>
-    </filter>
-  </defs>
-  <rect width="1440" height="1000" fill="#F8F9FC"/>
-  <path d="M0 0h720v1000H0z" fill="url(#wash)"/>
-  <circle cx="560" cy="215" r="205" fill="#D9DEFF" opacity=".55"/>
-  <circle cx="106" cy="875" r="260" fill="#E8DFFF" opacity=".5"/>
-  <rect x="84" y="72" width="46" height="46" rx="14" fill="url(#accent)"/>
-  <path d="M97 95h20M107 85v20" stroke="white" stroke-width="3" stroke-linecap="round"/>
-  <text x="146" y="103" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700" fill="#202544">atelier</text>
-  <text x="84" y="350" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="2.4" fill="#5966C8">ESPACE DE GESTION</text>
-  <text x="84" y="423" font-family="Inter,Arial,sans-serif" font-size="56" font-weight="750" fill="#202544">Tout votre catalogue,</text>
-  <text x="84" y="491" font-family="Inter,Arial,sans-serif" font-size="56" font-weight="750" fill="#202544">au même endroit.</text>
-  <text x="84" y="547" font-family="Inter,Arial,sans-serif" font-size="20" fill="#69708A">Retrouvez et gérez vos produits simplement</text>
-  <text x="84" y="579" font-family="Inter,Arial,sans-serif" font-size="20" fill="#69708A">depuis votre espace de travail.</text>
-  <rect x="84" y="675" width="480" height="158" rx="22" fill="white" opacity=".76"/>
-  <rect x="108" y="701" width="64" height="64" rx="18" fill="#EEF0FF"/>
-  <path d="M126 722h28v23h-28zM132 716h16v6h-16z" stroke="#5868DB" stroke-width="2.5" stroke-linejoin="round"/>
-  <text x="194" y="728" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700" fill="#303653">Une vue claire de vos produits</text>
-  <text x="194" y="759" font-family="Inter,Arial,sans-serif" font-size="15" fill="#777D94">Recherche, détails et modifications réunis</text>
-  <text x="194" y="783" font-family="Inter,Arial,sans-serif" font-size="15" fill="#777D94">dans une interface pensée pour vous.</text>
-  <text x="84" y="936" font-family="Inter,Arial,sans-serif" font-size="14" fill="#8A90A4">© 2026 Atelier · Espace professionnel</text>
-  <rect x="866" y="160" width="464" height="680" rx="28" fill="#B7BDD0" opacity=".16"/>
-  <rect x="850" y="144" width="464" height="680" rx="28" fill="white"/>
-  <text x="900" y="222" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="700" fill="#202544">Bienvenue</text>
-  <text x="900" y="258" font-family="Inter,Arial,sans-serif" font-size="16" fill="#777D94">Connectez-vous à votre espace de gestion.</text>
-  <text x="900" y="329" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="650" fill="#303653">Adresse e-mail</text>
-  <rect x="900" y="346" width="364" height="56" rx="10" fill="white" stroke="#DDE1EC"/>
-  <text x="920" y="381" font-family="Inter,Arial,sans-serif" font-size="15" fill="#A0A5B5">nom@entreprise.fr</text>
-  <text x="900" y="446" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="650" fill="#303653">Mot de passe</text>
-  <rect x="900" y="463" width="364" height="56" rx="10" fill="white" stroke="#DDE1EC"/>
-  <text x="920" y="498" font-family="Inter,Arial,sans-serif" font-size="18" letter-spacing="4" fill="#888EA2">••••••••••</text>
-  <text x="1133" y="550" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="600" fill="#5966C8">Mot de passe oublié ?</text>
-  <rect x="900" y="584" width="364" height="56" rx="11" fill="url(#accent)"/>
-  <text x="1031" y="619" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="700" fill="white">Se connecter</text>
-  <path d="M900 690h364" stroke="#ECEEF4"/>
-  <text x="916" y="731" font-family="Inter,Arial,sans-serif" font-size="13" fill="#9197A9">Accès réservé aux utilisateurs autorisés.</text>
-  <text x="900" y="777" font-family="Inter,Arial,sans-serif" font-size="13" fill="#A0A5B5">Besoin d'aide ? Contactez votre administrateur.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" fill="none">
+  <rect x="0" y="0" width="1600" height="1000" rx="0" fill="white"/>
+  <rect x="0" y="0" width="1600" height="52" rx="0" fill="#1F1F1F"/>
+  <text x="24" y="33" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="700" fill="white" text-anchor="start">MAQUETTE FONCTIONNELLE 01 — Connexion</text>
+  <text x="1576" y="33" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="400" fill="#D0D0D0" text-anchor="end">Wireframe · données d'exemple · basse fidélité</text>
+  <text x="24" y="84" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="#5F5F5F" text-anchor="start">Route</text>
+  <rect x="65.0" y="68" width="147.4" height="24" rx="4" fill="#F3F3F3" stroke="#C4C4C4" stroke-width="1"/>
+  <text x="73.0" y="85" font-family="Consolas,Menlo,monospace" font-size="12" fill="#1F1F1F">/login?returnUrl=…</text>
+  <text x="230.4" y="84" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="#5F5F5F" text-anchor="start">Guard</text>
+  <rect x="271.4" y="68" width="191.2" height="24" rx="4" fill="#F3F3F3" stroke="#C4C4C4" stroke-width="1"/>
+  <text x="279.4" y="85" font-family="Consolas,Menlo,monospace" font-size="12" fill="#1F1F1F">guestGuard (CanActivate)</text>
+  <text x="480.59999999999997" y="84" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="#5F5F5F" text-anchor="start">Resolver</text>
+  <rect x="541.4" y="68" width="52.5" height="24" rx="4" fill="#F3F3F3" stroke="#C4C4C4" stroke-width="1"/>
+  <text x="549.4" y="85" font-family="Consolas,Menlo,monospace" font-size="12" fill="#1F1F1F">aucun</text>
+  <rect x="24" y="116" width="1040" height="860" rx="6" fill="white" stroke="#5F5F5F" stroke-width="1"/>
+  <rect x="324" y="206" width="440" height="640" rx="6" fill="white" stroke="#5F5F5F" stroke-width="1"/>
+  <text x="544.0" y="256" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#1F1F1F" text-anchor="middle">[LOGO] Atelier</text>
+  <text x="356" y="306" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="#1F1F1F" text-anchor="start">Connexion</text>
+  <text x="356" y="330" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="400" fill="#5F5F5F" text-anchor="start">Accès réservé aux utilisateurs autorisés.</text>
+  <rect x="356" y="350" width="376" height="52" rx="4" fill="white" stroke="#B3261E" stroke-width="2"/>
+  <text x="370" y="372" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#B3261E" text-anchor="start">⚠ Identifiant ou mot de passe incorrect.</text>
+  <text x="370" y="390" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="400" fill="#B3261E" text-anchor="start">Vérifiez vos informations puis réessayez.</text>
+  <circle cx="748" cy="350" r="10" fill="#1F1F1F"/>
+  <text x="748" y="354" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">5</text>
+  <text x="356" y="438" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#1F1F1F" text-anchor="start">Adresse e-mail *</text>
+  <rect x="356" y="446" width="376" height="34" rx="4" fill="white" stroke="#B3261E" stroke-width="2"/>
+  <text x="366" y="468.0" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="400" fill="#1F1F1F" text-anchor="start">marie.laurent@exemple</text>
+  <text x="356" y="496" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="400" fill="#B3261E" text-anchor="start">Format d'adresse e-mail invalide.</text>
+  <circle cx="748" cy="446" r="10" fill="#1F1F1F"/>
+  <text x="748" y="450" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">1</text>
+  <text x="356" y="524" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#1F1F1F" text-anchor="start">Mot de passe *</text>
+  <rect x="356" y="532" width="376" height="34" rx="4" fill="white" stroke="#5F5F5F" stroke-width="1"/>
+  <text x="366" y="554.0" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="400" fill="#1F1F1F" text-anchor="start">••••••••••</text>
+  <text x="356" y="582" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="400" fill="#5F5F5F" text-anchor="start">Saisie masquée.</text>
+  <text x="684.0" y="554.0" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="600" fill="#1F5FBF" text-anchor="middle">Afficher</text>
+  <circle cx="748" cy="532" r="10" fill="#1F1F1F"/>
+  <text x="748" y="536" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">2</text>
+  <rect x="356" y="606" width="16" height="16" rx="2" fill="white" stroke="#5F5F5F" stroke-width="1"/>
+  <text x="380" y="619" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="400" fill="#1F1F1F" text-anchor="start">Rester connecté sur cet appareil</text>
+  <circle cx="748" cy="612" r="10" fill="#1F1F1F"/>
+  <text x="748" y="616" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">3</text>
+  <rect x="356" y="646" width="376" height="40" rx="4" fill="#1F1F1F" stroke="#1F1F1F" stroke-width="1"/>
+  <text x="544.0" y="671.0" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="600" fill="white" text-anchor="middle">Se connecter</text>
+  <circle cx="748" cy="666" r="10" fill="#1F1F1F"/>
+  <text x="748" y="670" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">4</text>
+  <text x="446.0" y="717.0" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="600" fill="#1F5FBF" text-anchor="middle">Mot de passe oublié ?</text>
+  <circle cx="554" cy="712" r="10" fill="#1F1F1F"/>
+  <text x="554" y="716" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">6</text>
+  <line x1="356" y1="746" x2="732" y2="746" stroke="#C4C4C4" stroke-width="1"/>
+  <text x="356" y="772" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="400" fill="#5F5F5F" text-anchor="start">* champ obligatoire</text>
+  <text x="356" y="792" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="400" fill="#5F5F5F" text-anchor="start">Entrée = valider · Tab = champ suivant</text>
+  <text x="48" y="866" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="#5F5F5F" text-anchor="start">ÉTATS DU BOUTON « SE CONNECTER »</text>
+  <rect x="48" y="880" width="200" height="34" rx="4" fill="#1F1F1F" stroke="#1F1F1F" stroke-width="1"/>
+  <text x="148.0" y="902.0" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="600" fill="white" text-anchor="middle">Se connecter</text>
+  <text x="48" y="932" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="400" fill="#5F5F5F" text-anchor="start">Formulaire valide</text>
+  <rect x="388" y="880" width="200" height="34" rx="4" fill="#E4E4E4" stroke="#C4C4C4" stroke-width="1"/>
+  <text x="488.0" y="902.0" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="600" fill="#8C8C8C" text-anchor="middle">Se connecter</text>
+  <text x="388" y="932" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="400" fill="#5F5F5F" text-anchor="start">Champ requis vide / invalide</text>
+  <rect x="728" y="880" width="200" height="34" rx="4" fill="#E4E4E4" stroke="#C4C4C4" stroke-width="1"/>
+  <text x="828.0" y="902.0" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="600" fill="#8C8C8C" text-anchor="middle">Connexion…</text>
+  <text x="728" y="932" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="400" fill="#5F5F5F" text-anchor="start">Requête en cours (double clic bloqué)</text>
+  <rect x="1084" y="116" width="492" height="860" rx="6" fill="#F3F3F3" stroke="#C4C4C4" stroke-width="1"/>
+  <text x="1102" y="146" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="700" fill="#1F1F1F" text-anchor="start">SPÉCIFICATIONS FONCTIONNELLES</text>
+  <text x="1102" y="172" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="#5F5F5F" text-anchor="start">CONTEXTE</text>
+  <line x1="1102" y1="178" x2="1558" y2="178" stroke="#C4C4C4" stroke-width="1"/>
+  <text x="1106" y="194" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#5F5F5F" text-anchor="start">•</text>
+  <text x="1118" y="194" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">Écran public, sans menu applicatif. Si une session valide existe,</text>
+  <text x="1118" y="209" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">guestGuard redirige vers /products.</text>
+  <text x="1106" y="228" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#5F5F5F" text-anchor="start">•</text>
+  <text x="1118" y="228" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">Appel : POST /auth/login { username, password } → jeton conservé par le</text>
+  <text x="1118" y="243" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">service d'authentification ; ajouté aux appels API par l'interceptor</text>
+  <text x="1118" y="258" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">d'authentification.</text>
+  <text x="1102" y="285" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="#5F5F5F" text-anchor="start">ÉLÉMENTS</text>
+  <line x1="1102" y1="291" x2="1558" y2="291" stroke="#C4C4C4" stroke-width="1"/>
+  <circle cx="1112" cy="303" r="10" fill="#1F1F1F"/>
+  <text x="1112" y="307" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">1</text>
+  <text x="1130" y="307" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">Adresse e-mail : obligatoire, format e-mail, espaces retirés. Focus</text>
+  <text x="1130" y="322" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">initial. Erreur affichée à la perte du focus ou à la soumission.</text>
+  <circle cx="1112" cy="337" r="10" fill="#1F1F1F"/>
+  <text x="1112" y="341" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">2</text>
+  <text x="1130" y="341" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">Mot de passe : obligatoire, masqué. « Afficher / Masquer » bascule la</text>
+  <text x="1130" y="356" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">visibilité sans perdre la saisie. Jamais pré-rempli ni journalisé.</text>
+  <circle cx="1112" cy="371" r="10" fill="#1F1F1F"/>
+  <text x="1112" y="375" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">3</text>
+  <text x="1130" y="375" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">Rester connecté : décoché par défaut ; choisit un stockage de session</text>
+  <text x="1130" y="390" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">persistant ou limité à l'onglet.</text>
+  <circle cx="1112" cy="405" r="10" fill="#1F1F1F"/>
+  <text x="1112" y="409" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">4</text>
+  <text x="1130" y="409" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">Se connecter : soumet le formulaire (clic ou Entrée). Désactivé si</text>
+  <text x="1130" y="424" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">invalide ou pendant l'appel ; libellé « Connexion… ».</text>
+  <circle cx="1112" cy="439" r="10" fill="#1F1F1F"/>
+  <text x="1112" y="443" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">5</text>
+  <text x="1130" y="443" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">Bannière d'erreur globale (role=alert), au-dessus des champs : 401 →</text>
+  <text x="1130" y="458" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">identifiants incorrects ; 0 / 5xx → « Service indisponible, réessayez</text>
+  <text x="1130" y="473" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">plus tard ».</text>
+  <circle cx="1112" cy="488" r="10" fill="#1F1F1F"/>
+  <text x="1112" y="492" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">6</text>
+  <text x="1130" y="492" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">Mot de passe oublié : lien vers le parcours de réinitialisation (hors</text>
+  <text x="1130" y="507" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">périmètre de cette itération).</text>
+  <text x="1102" y="534" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="#5F5F5F" text-anchor="start">RÈGLES</text>
+  <line x1="1102" y1="540" x2="1558" y2="540" stroke="#C4C4C4" stroke-width="1"/>
+  <text x="1106" y="556" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#5F5F5F" text-anchor="start">•</text>
+  <text x="1118" y="556" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">Succès : redirection vers returnUrl s'il s'agit d'une route interne</text>
+  <text x="1118" y="571" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">valide, sinon vers /products.</text>
+  <text x="1106" y="590" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#5F5F5F" text-anchor="start">•</text>
+  <text x="1118" y="590" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">Échec : le mot de passe est vidé, l'e-mail conservé, le focus est placé</text>
+  <text x="1118" y="605" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">sur la bannière d'erreur.</text>
+  <text x="1106" y="624" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#5F5F5F" text-anchor="start">•</text>
+  <text x="1118" y="624" font-family="Arial,Helvetica,sans-serif" font-size="11.5" font-weight="400" fill="#1F1F1F" text-anchor="start">Message générique : ne pas indiquer si l'e-mail existe.</text>
 </svg>

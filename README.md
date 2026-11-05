@@ -4,13 +4,14 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Development server
 
-To start a local development server, run:
+The application needs the json-server API (port 5050) and the Angular dev server (HTTPS, port 4200). Run them in two terminals:
 
 ```bash
-ng serve
+npm run api      # json-server on http://localhost:5050 (npm run api:reset restores the seed data)
+npm start        # builds the gca library, then serves https://localhost:4200/ with /api proxied to the API
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open `https://localhost:4200/` and sign in with `marie.laurent@atelier.dev` / `Atelier2026!` (or `paul.martin@atelier.dev`, same password). The HTTPS certificate lives in `certs/` (not versioned); see [certs/README.md](certs/README.md) to generate it. Architecture details: [ARCHITECTURE.md](workflow/documentation/ARCHITECTURE.md).
 
 ## Code scaffolding
 
@@ -41,7 +42,8 @@ This will compile your project and store the build artifacts in the `dist/` dire
 To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
 
 ```bash
-ng test
+npm test           # application
+npm run test:gca   # gca library
 ```
 
 ## Running end-to-end tests

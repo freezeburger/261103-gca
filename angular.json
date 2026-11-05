@@ -29,7 +29,7 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"]
+            "styles": ["projects/gca/src/styles/gca-theme.css", "src/styles.scss"]
           },
           "configurations": {
             "production": {
@@ -57,6 +57,12 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "ssl": true,
+            "sslCert": "certs/localhost.crt",
+            "sslKey": "certs/localhost.key",
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "application:build:production"

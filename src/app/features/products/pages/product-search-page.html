@@ -1,0 +1,91 @@
+<header class="page-header">
+  <h1>Produits</h1>
+  <p>Recherchez un produit du catalogue puis consultez ou modifiez sa fiche.</p>
+</header>
+
+<gca-card>
+  <div class="toolbar" role="search">
+    <gca-search-input class="search" placeholder="Rechercher un produit" [value]="q()" (search)="search($event)" />
+    <select gcaSelect class="sort" aria-label="Trier par" (change)="changeSortKey($event)">
+      @for (option of sortOptions; track option.value) {
+        <option [value]="option.value" [selected]="option.value === sortKey()">{{ option.label }}</option>
+      }
+    </select>
+    <button gcaButton type="button" variant="text" severity="secondary" (click)="reset()">Réinitialiser</button>
+  </div>
+
+  @if (products.error()) {
+    <gca-empty-state icon="⚠" heading="Impossible de charger les produits." description="Vos filtres sont conservés.">
+      <button gcaButton type="button" icon="↻" (click)="products.reload()">Réessayer</button>
+    </gca-empty-state>
+  } @else if (products.hasValue()) {
+    @let result = products.value();
+    @if (result.products.length === 0) {
+      <gca-empty-state
+        icon="⌕"
+        heading="Aucun résultat"
+        [description]="q() ? 'Aucun produit ne correspond à « ' + q() + ' ».' : 'Le catalogue est vide.'"
+      >
+        <button gcaButton type="button" variant="outlined" (click)="reset()">Réinitialiser</button>
+      </gca-empty-state>
+    } @else {
+      <p class="summary" aria-live="polite">
+        <strong>{{ result.total }}</strong> résultat{{ result.total > 1 ? 's' : '' }}
+        @if (q()) {
+          pour « {{ q() }} »
+        }
+      </p>
+      <div class="table-scroll">
+        <table gcaTable [sort]="sort()" [loading]="products.isLoading()" (sortChange)="changeSort($event)">
+          <thead>
+            <tr>
+              <th><span class="sr-only">Miniature</span></th>
+              <th>ID</th>
+              <th gcaSortHeader="title">Titre</th>
+              <th>Description</th>
+              <th gcaSortHeader="price" class="gca-num">Prix</th>
+              <th class="gca-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (product of result.products; track product.id) {
+              <tr class="gca-row-link" tabindex="0" (click)="open(product.id)" (keydown.enter)="open(product.id)">
+                <td>
+                  <gca-image compact width="36px" height="36px" [src]="product.thumbnail" [alt]="product.title" />
+                </td>
+                <td>{{ product.id }}</td>
+                <td><strong>{{ product.title }}</strong></td>
+                <td class="gca-truncate" [title]="product.description">{{ product.description }}</td>
+                <td class="gca-num">{{ product.price | currency: 'EUR' }}</td>
+                <td class="gca-actions" (click)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()">
+                  <a gcaButton size="sm" variant="text" queryParamsHandling="preserve" [routerLink]="[product.id]">Voir</a>
+                  <a
+                    gcaButton
+                    size="sm"
+                    variant="outlined"
+                    queryParamsHandling="preserve"
+                    [routerLink]="[product.id, 'edit']"
+                  >
+                    Modifier
+                  </a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <gca-paginator [total]="result.total" [page]="page()" [pageSize]="size()" (paginate)="changePage($event)" />
+    }
+  } @else {
+    <div class="skeletons" aria-busy="true" aria-label="Chargement des produits">
+      @for (row of skeletonRows; track row) {
+        <div class="skeleton-row">
+          <gca-skeleton shape="circle" width="36px" />
+          <gca-skeleton width="25%" />
+          <gca-skeleton width="45%" />
+          <gca-skeleton width="10%" />
+        </div>
+      }
+    </div>
+  }
+</gca-card>

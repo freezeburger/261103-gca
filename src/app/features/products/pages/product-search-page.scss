@@ -1,0 +1,43 @@
+.page-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.page-header p {
+  margin: 0.25rem 0 1.25rem;
+  color: var(--gca-text-muted, #64748b);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search {
+  flex: 1 1 18rem;
+}
+
+.sort {
+  width: auto;
+  min-width: 12rem;
+}
+
+.summary {
+  margin: 0 0 0.5rem;
+  color: var(--gca-text-muted, #64748b);
+  font-size: 0.875rem;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+}

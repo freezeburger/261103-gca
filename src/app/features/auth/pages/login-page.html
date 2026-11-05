@@ -1,0 +1,32 @@
+<main class="login">
+  <p class="brand">Atelier</p>
+  <gca-card accent header="Connexion" subtitle="Accès réservé aux utilisateurs autorisés.">
+    <form class="stack" [formRoot]="loginForm">
+      @if (failure(); as failure) {
+        <gca-message severity="danger" [summary]="failure">Vérifiez vos informations puis réessayez.</gca-message>
+      }
+      <gca-field label="Adresse e-mail">
+        <input gcaInput type="email" autocomplete="username" autofocus [formField]="loginForm.email" />
+      </gca-field>
+      <gca-field label="Mot de passe">
+        <input
+          #password
+          gcaInput
+          type="password"
+          autocomplete="current-password"
+          [formField]="loginForm.password"
+        />
+        <gca-password-toggle gcaSuffix [for]="password" />
+      </gca-field>
+      <label class="remember">
+        <input type="checkbox" gcaCheckbox [formField]="loginForm.remember" />
+        Rester connecté sur cet appareil
+      </label>
+      <button gcaButton type="submit" variant="gradient" size="lg" [loading]="loginForm().submitting()">
+        {{ loginForm().submitting() ? 'Connexion…' : 'Se connecter' }}
+      </button>
+      <a class="forgot" href="/mot-de-passe-oublie">Mot de passe oublié ?</a>
+    </form>
+  </gca-card>
+  <small>* champ obligatoire · Entrée = valider</small>
+</main>

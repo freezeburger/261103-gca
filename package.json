@@ -3,10 +3,17 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "build:gca": "ng build gca",
+    "prestart": "npm run build:gca",
     "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "api": "node server/server.cjs",
+    "api:reset": "node server/server.cjs --reset",
+    "prebuild": "npm run build:gca",
+    "build": "ng build application",
+    "watch": "ng build application --watch --configuration development",
+    "pretest": "npm run build:gca",
+    "test": "ng test application --watch=false",
+    "test:gca": "ng test gca --watch=false"
   },
   "private": true,
   "packageManager": "npm@11.19.0",
@@ -18,13 +25,15 @@
     "@angular/platform-browser": "^22.2.0",
     "@angular/router": "^22.2.0",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@angular/build": "^22.2.5",
     "@angular/cli": "^22.2.5",
     "@angular/compiler-cli": "^22.2.0",
     "jsdom": "^30.0.0",
+    "json-server": "0.17.4",
     "ng-packagr": "^22.2.0",
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",

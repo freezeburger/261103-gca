@@ -1,0 +1,80 @@
+<header class="page-header">
+  <div>
+    <h1>Notifications</h1>
+    <p>{{ unreadCount() }} non lue{{ unreadCount() > 1 ? 's' : '' }} sur {{ visible().length }}</p>
+  </div>
+  <button
+    gcaButton
+    type="button"
+    variant="outlined"
+    icon="✓"
+    [disabled]="store.unreadCount() === 0"
+    (click)="store.markAllAsRead()"
+  >
+    Tout marquer comme lu
+  </button>
+</header>
+
+<gca-card>
+  <div class="filters">
+    <gca-select-button
+      ariaLabel="Statut"
+      [options]="statusOptions()"
+      [value]="status()"
+      (valueChange)="navigate({ status: $event === 'all' ? null : $event })"
+    />
+    <select gcaSelect class="level" aria-label="Niveau" (change)="changeLevel($event)">
+      <option value="">Tous les niveaux</option>
+      @for (entry of levelEntries; track entry[0]) {
+        <option [value]="entry[0]" [selected]="entry[0] === level()">{{ entry[1].label }}</option>
+      }
+    </select>
+  </div>
+
+  @if (store.error()) {
+    <gca-empty-state icon="⚠" heading="Impossible de charger les notifications.">
+      <button gcaButton type="button" icon="↻" (click)="store.reload()">Réessayer</button>
+    </gca-empty-state>
+  } @else if (store.isLoading() && visible().length === 0) {
+    <div class="skeletons" aria-busy="true" aria-label="Chargement des notifications">
+      @for (row of [1, 2, 3]; track row) {
+        <gca-skeleton height="4rem" />
+      }
+    </div>
+  } @else {
+    @for (group of groups(); track group.label) {
+      <h2 class="group">{{ group.label }}</h2>
+      @for (n of group.items; track n.id) {
+        <article class="notification" [class.unread]="!n.readAt">
+          <gca-tag [severity]="levels[n.level].severity">{{ levels[n.level].label }}</gca-tag>
+          <div class="content">
+            <h3>{{ n.title }}</h3>
+            <p>{{ n.message }}</p>
+            @if (n.action; as action) {
+              <a [routerLink]="action.link" (click)="store.markAsRead(n.id)">{{ action.label }} →</a>
+            }
+          </div>
+          <time [attr.datetime]="n.createdAt" [title]="n.createdAt | date: 'full'">{{ n.createdAt | date: 'short' }}</time>
+          <div class="row-actions">
+            @if (!n.readAt) {
+              <button gcaButton type="button" size="sm" variant="text" (click)="store.markAsRead(n.id)">Marquer lu</button>
+            }
+            <button gcaButton type="button" size="sm" variant="text" severity="danger" (click)="remove(n)">Suppr.</button>
+          </div>
+        </article>
+      }
+    } @empty {
+      <gca-empty-state icon="🔔" [heading]="emptyMessage()">
+        @if (status() !== 'all' || level()) {
+          <button gcaButton type="button" variant="outlined" (click)="navigate({ status: null, level: null })">
+            Afficher toutes les notifications
+          </button>
+        }
+      </gca-empty-state>
+    }
+
+    @if (filtered().length > limit()) {
+      <button gcaButton type="button" class="more" variant="text" (click)="loadMore()">Charger plus</button>
+    }
+  }
+</gca-card>

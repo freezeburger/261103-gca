@@ -1,0 +1,50 @@
+<gca-breadcrumb [items]="crumbs()" />
+
+<header class="page-header">
+  <a gcaButton variant="text" severity="secondary" icon="←" routerLink="/products" queryParamsHandling="preserve">
+    Retour aux résultats
+  </a>
+  <h1>Produit n° {{ product().id }}</h1>
+</header>
+
+<div class="grid">
+  <gca-card class="media">
+    <gca-image width="100%" height="300px" [src]="product().thumbnail" [alt]="product().title" />
+  </gca-card>
+
+  <gca-card accent header="Informations">
+    <a gcaButton gcaCardActions icon="✎" [routerLink]="['edit']" queryParamsHandling="preserve">Modifier</a>
+    <dl class="info">
+      <dt>Identifiant</dt>
+      <dd>
+        {{ product().id }}
+        <button gcaButton type="button" size="sm" variant="text" (click)="copyId()">Copier</button>
+      </dd>
+      <dt>Titre</dt>
+      <dd>{{ product().title }}</dd>
+      @if (product().category; as category) {
+        <dt>Catégorie</dt>
+        <dd><gca-tag severity="info" rounded>{{ category }}</gca-tag></dd>
+      }
+      @if (product().brand; as brand) {
+        <dt>Marque</dt>
+        <dd>{{ brand }}</dd>
+      }
+      <dt>Prix</dt>
+      <dd class="price">{{ product().price | currency: 'EUR' }}</dd>
+      @if (product().stock !== undefined) {
+        <dt>Stock</dt>
+        <dd>{{ product().stock }}</dd>
+      }
+      <dt>Miniature</dt>
+      <dd class="url">
+        <span [title]="product().thumbnail">{{ product().thumbnail }}</span>
+        <a [href]="product().thumbnail" target="_blank" rel="noopener">Ouvrir ↗</a>
+      </dd>
+    </dl>
+  </gca-card>
+
+  <gca-card header="Description" class="wide">
+    <p class="description">{{ product().description }}</p>
+  </gca-card>
+</div>

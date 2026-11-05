@@ -1,10 +1,14 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { GcaConfirmDialog, GcaToast } from 'gca';
 
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
-  templateUrl: './app.html',
+  imports: [RouterOutlet, GcaToast, GcaConfirmDialog],
+  template: `
+    <router-outlet />
+    <gca-toast />
+    <gca-confirm-dialog />
+  `,
 })
-export class App {
-}
+export class App {}

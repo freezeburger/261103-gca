@@ -1,1 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+/* Styles globaux de l'application ; la palette provient du th?me gca (angular.json > styles). */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

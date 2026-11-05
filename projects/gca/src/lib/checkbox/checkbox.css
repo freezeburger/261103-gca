@@ -1,0 +1,32 @@
+:host {
+  display: inline-grid;
+  place-content: center;
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0 0.5rem 0 0;
+  border: 2px solid #cbd5e1;
+  border-radius: 6px;
+  background: var(--gca-surface, #fff);
+  vertical-align: -0.25rem;
+  appearance: none;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+:host::before {
+  content: '';
+  width: 0.65rem;
+  height: 0.65rem;
+  background: #fff;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  transform: scale(0);
+  transition: transform 0.12s ease-out;
+}
+:host(:checked) {
+  border-color: transparent;
+  background: var(--gca-gradient, linear-gradient(135deg, #6366f1, #8b5cf6 55%, #d946ef));
+}
+:host(:checked)::before { transform: scale(1); }
+:host(:hover) { border-color: var(--gca-primary, #6366f1); }
+:host(:focus-visible) { outline: none; box-shadow: var(--gca-focus-ring, 0 0 0 3px rgb(99 102 241 / 35%)); }
+:host(:disabled) { opacity: 0.5; cursor: not-allowed; }

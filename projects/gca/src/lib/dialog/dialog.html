@@ -1,0 +1,25 @@
+@if (visible()) {
+  <div class="mask" (click)="dismissable() && close()"></div>
+  <section
+    #panel
+    class="panel"
+    tabindex="-1"
+    aria-modal="true"
+    [attr.role]="dialogRole()"
+    [attr.aria-labelledby]="header() ? headerId : null"
+    [style.width]="width()"
+    (keydown)="onKeydown($event, panel)"
+  >
+    <header class="header">
+      @if (header()) {
+        <h2 [id]="headerId">{{ header() }}</h2>
+      }
+      <ng-content select="[gcaDialogHeader]" />
+      @if (closable()) {
+        <button type="button" class="close" [attr.aria-label]="closeLabel()" (click)="close()">×</button>
+      }
+    </header>
+    <div class="body"><ng-content /></div>
+    <footer class="footer"><ng-content select="[gcaDialogFooter]" /></footer>
+  </section>
+}

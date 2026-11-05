@@ -1,0 +1,60 @@
+<a class="skip-link" href="#gca-main">{{ skipLinkLabel() }}</a>
+<gca-appbar
+  class="appbar"
+  [showMenuButton]="true"  [brand]="brand()"
+  [brandLink]="brandLink()"
+  [logo]="logo()"
+  [menuExpanded]="isMobile() ? drawerOpen() : !collapsed()"
+  (menuToggle)="toggleMenu()"
+>
+  <ng-container ngProjectAs="[gcaAppbarStart]"><ng-content select="[gcaAppbarStart]" /></ng-container>
+  <ng-container ngProjectAs="[gcaAppbarEnd]"><ng-content select="[gcaAppbarEnd]" /></ng-container>
+</gca-appbar>
+
+<div class="frame">
+  @if (!isMobile()) {
+    <aside class="sidebar" [class.collapsed]="collapsed()">
+      <ng-container [ngTemplateOutlet]="nav" />
+    </aside>
+  }
+  <main class="content" id="gca-main" tabindex="-1">
+    <ng-content />
+  </main>
+</div>
+
+@if (isMobile()) {
+  <gca-drawer [(visible)]="drawerOpen" [header]="brand()" size="17rem">
+    <ng-container [ngTemplateOutlet]="nav" />
+  </gca-drawer>
+}
+
+<ng-template #nav>
+  <nav class="nav" [attr.aria-label]="navLabel()">
+    <ul>
+      @for (item of navItems(); track $index) {
+        <li>
+          <a
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            [routerLink]="item.link"
+            [queryParams]="item.queryParams"
+            [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+            [attr.title]="collapsed() && !isMobile() ? item.label : null"
+            (click)="onNavigate()"
+          >
+            <span class="icon" aria-hidden="true">{{ item.icon ?? item.label.charAt(0) }}</span>
+            <span class="label">{{ item.label }}</span>
+            @if (item.badge) {
+              <gca-badge class="badge" [value]="item.badge" [ariaLabel]="item.badgeLabel" />
+            }
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+  @if (sidebarFooter(); as footer) {
+    <div class="sidebar-footer">
+      <ng-container [ngTemplateOutlet]="footer.template" />
+    </div>
+  }
+</ng-template>

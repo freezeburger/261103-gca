@@ -1,0 +1,33 @@
+﻿:host {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0;
+}
+.label {
+  color: var(--gca-text, #1e293b);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.required { margin-left: 0.15rem; color: var(--gca-danger, #ef4444); }
+.control {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+.main { flex: 1; min-width: 0; }
+.affix { display: flex; flex: none; align-items: center; color: var(--gca-text-muted, #64748b); font-weight: 600; }
+.affix:empty { display: none; }
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  font-size: 0.8125rem;
+}
+.footer:empty { display: none; }
+.hint { color: var(--gca-text-muted, #64748b); }
+.error { color: var(--gca-danger-strong, #b91c1c); font-weight: 500; }
+.error::before { content: 'âš  '; }
+.counter { margin-left: auto; color: var(--gca-text-muted, #64748b); font-variant-numeric: tabular-nums; }
+.counter.over { color: var(--gca-danger-strong, #b91c1c); font-weight: 600; }
+:host(.gca-field-invalid) .label { color: var(--gca-danger-strong, #b91c1c); }

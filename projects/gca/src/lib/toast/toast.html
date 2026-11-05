@@ -1,0 +1,23 @@
+@for (message of toasts.messages(); track message.id) {
+  <div
+    [class]="'toast gca-' + message.severity"
+    [attr.role]="message.severity === 'danger' ? 'alert' : 'status'"
+  >
+    <span class="icon" aria-hidden="true">{{ icons[message.severity] }}</span>
+    <div class="body">
+      <strong>{{ message.summary }}</strong>
+      @if (message.detail) {
+        <p>{{ message.detail }}</p>
+      }
+    </div>
+    @if (message.action; as action) {
+      <button type="button" class="action" (click)="runAction(message)">{{ action.label }}</button>
+    }
+    <button type="button" class="close" [attr.aria-label]="closeLabel()" (click)="toasts.dismiss(message.id)">
+      ×
+    </button>
+    @if (message.life > 0) {
+      <span class="timer" [style.animation-duration.ms]="message.life"></span>
+    }
+  </div>
+}

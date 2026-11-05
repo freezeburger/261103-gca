@@ -1,0 +1,12 @@
+<span class="icon" aria-hidden="true">⌕</span>
+<input
+  type="search"
+  [value]="value()"
+  [placeholder]="placeholder()"
+  [attr.aria-label]="ariaLabel()"
+  (input)="onInput($any($event.target).value)"
+  (keydown.enter)="onEnter()"
+/>
+@if (value()) {
+  <button type="button" class="clear" [attr.aria-label]="clearLabel()" (click)="clear()">×</button>
+}

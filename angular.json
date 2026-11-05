@@ -29,9 +29,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ]
+            "styles": ["src/styles.scss"]
           },
           "configurations": {
             "production": {
@@ -71,6 +69,32 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        }
+      }
+    },
+    "gca": {
+      "projectType": "library",
+      "root": "projects/gca",
+      "sourceRoot": "projects/gca/src",
+      "prefix": "gca",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/gca/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/gca/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/gca/tsconfig.spec.json"
+          }
         }
       }
     }

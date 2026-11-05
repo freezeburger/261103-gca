@@ -1,0 +1,23 @@
+<header class="bar">
+  @if (showMenuButton()) {
+    <button
+      type="button"
+      class="burger"
+      [attr.aria-label]="menuLabel()"
+      [attr.aria-expanded]="menuExpanded()"
+      (click)="menuToggle.emit()"
+    >
+      <span></span><span></span><span></span>
+    </button>
+  }
+  <a class="brand" [routerLink]="brandLink()">
+    @if (logo()) {
+      <img class="logo" [src]="logo()" alt="" />
+    } @else {
+      <span class="logo mark" aria-hidden="true">{{ brand().charAt(0) }}</span>
+    }
+    <span class="brand-name">{{ brand() }}</span>
+  </a>
+  <div class="start"><ng-content select="[gcaAppbarStart]" /></div>
+  <div class="end"><ng-content select="[gcaAppbarEnd]" /></div>
+</header>

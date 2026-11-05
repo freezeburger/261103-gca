@@ -4,6 +4,10 @@
   "compileOnSave": false,
   "compilerOptions": {
     "noImplicitOverride": true,
+    "paths": {
+      "gca": ["./dist/gca"],
+      "gca-dev": ["./projects/gca/public-api.ts"],
+    },
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -26,6 +30,12 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/gca/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/gca/tsconfig.spec.json"
     }
   ]
 }

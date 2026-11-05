@@ -1,0 +1,21 @@
+:host {
+  position: relative;
+  display: block;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--gca-primary-soft, #eef2ff);
+}
+:host(.gca-fixed) { position: fixed; inset: 0 0 auto; z-index: 1100; border-radius: 0; }
+.bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: var(--gca-gradient, linear-gradient(135deg, #6366f1, #8b5cf6 55%, #d946ef));
+  transition: width 0.3s ease;
+}
+:host(.gca-indeterminate) .bar { width: 40%; animation: gca-indeterminate 1.2s ease-in-out infinite; }
+@keyframes gca-indeterminate {
+  from { left: -40%; }
+  to { left: 100%; }
+}

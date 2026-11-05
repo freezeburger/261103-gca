@@ -1,0 +1,22 @@
+:host {
+  --_c: var(--gca-danger, #ef4444);
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: var(--_c);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--_c) 40%, transparent);
+}
+:host(.gca-primary) { --_c: var(--gca-primary, #6366f1); }
+:host(.gca-secondary) { --_c: var(--gca-secondary, #64748b); }
+:host(.gca-success) { --_c: var(--gca-success, #10b981); }
+:host(.gca-info) { --_c: var(--gca-info, #0ea5e9); }
+:host(.gca-warn) { --_c: var(--gca-warn, #f59e0b); }
+:host(.gca-contrast) { --_c: var(--gca-contrast, #0f172a); }

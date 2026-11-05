@@ -1,0 +1,10 @@
+<span class="icon" aria-hidden="true">{{ glyph() }}</span>
+<div class="body">
+  @if (summary()) {
+    <strong class="title">{{ summary() }}</strong>
+  }
+  <div class="content"><ng-content /></div>
+</div>
+@if (closable()) {
+  <button type="button" class="close" [attr.aria-label]="closeLabel()" (click)="closed.emit()">×</button>
+}

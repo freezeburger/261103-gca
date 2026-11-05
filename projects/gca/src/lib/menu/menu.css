@@ -1,0 +1,70 @@
+:host { position: relative; display: inline-block; }
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.65rem 0.3rem 0.3rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 14%);
+  color: inherit;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.trigger:hover { background: rgb(255 255 255 / 24%); }
+.trigger:focus-visible { outline: none; box-shadow: 0 0 0 3px rgb(255 255 255 / 45%); }
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--gca-primary-strong, #4338ca);
+  font-size: 0.875rem;
+}
+.chevron { font-size: 0.75rem; opacity: 0.8; }
+.panel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 900;
+  min-width: 12rem;
+  margin: 0;
+  padding: 0.375rem;
+  border: 1px solid var(--gca-border, #e2e8f0);
+  border-radius: var(--gca-radius, 12px);
+  background: var(--gca-surface, #fff);
+  box-shadow: var(--gca-shadow-lg, 0 12px 40px rgb(15 23 42 / 18%));
+  list-style: none;
+  animation: gca-menu-in 0.15s ease-out;
+}
+.panel.start { right: auto; left: 0; }
+.panel a,
+.panel button {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  border-radius: var(--gca-radius-sm, 8px);
+  background: none;
+  color: var(--gca-text, #1e293b);
+  font: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.panel a:hover,
+.panel button:hover,
+.panel a:focus-visible,
+.panel button:focus-visible { outline: none; background: var(--gca-primary-soft, #eef2ff); color: var(--gca-primary-strong, #4338ca); }
+.panel .danger { color: var(--gca-danger-strong, #b91c1c); }
+.icon { width: 1rem; text-align: center; }
+.separator { height: 1px; margin: 0.375rem 0; background: var(--gca-border, #e2e8f0); }
+@keyframes gca-menu-in { from { opacity: 0; transform: translateY(-4px); } }

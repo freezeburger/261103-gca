@@ -1,0 +1,56 @@
+.gca-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--gca-text, #1e293b);
+  font-size: 0.875rem;
+}
+.gca-table th {
+  position: sticky;
+  top: 0;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--gca-border, #e2e8f0);
+  background: var(--gca-surface-ground, #f5f7fb);
+  color: var(--gca-text-muted, #64748b);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.gca-table th:first-child { border-top-left-radius: var(--gca-radius-sm, 8px); }
+.gca-table th:last-child { border-top-right-radius: var(--gca-radius-sm, 8px); }
+.gca-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--gca-border, #e2e8f0);
+  vertical-align: middle;
+}
+.gca-table tbody tr { transition: background 0.12s; }
+.gca-table tbody tr:hover { background: var(--gca-primary-soft, #eef2ff); }
+.gca-table.gca-striped tbody tr:nth-child(even) { background: var(--gca-surface-ground, #f5f7fb); }
+.gca-table.gca-striped tbody tr:nth-child(even):hover { background: var(--gca-primary-soft, #eef2ff); }
+.gca-table[aria-busy='true'] tbody { opacity: 0.55; }
+.gca-table .gca-num { text-align: right; font-variant-numeric: tabular-nums; }
+.gca-table .gca-truncate { max-width: 22rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gca-table .gca-row-link { cursor: pointer; }
+.gca-table .gca-row-link:focus-visible { outline: 2px solid var(--gca-primary, #6366f1); outline-offset: -2px; }
+.gca-table .gca-actions { width: 1%; text-align: right; white-space: nowrap; }
+.gca-table .gca-actions > * + * { margin-left: 0.25rem; }
+.gca-sort-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+.gca-sort-button:hover { color: var(--gca-primary-strong, #4338ca); }
+.gca-sort-button:focus-visible { outline: none; border-radius: 4px; box-shadow: var(--gca-focus-ring, 0 0 0 3px rgb(99 102 241 / 35%)); }
+.gca-sort-icon { font-size: 0.7rem; opacity: 0.45; }
+.gca-sort-icon.gca-sort-active { color: var(--gca-primary, #6366f1); opacity: 1; }

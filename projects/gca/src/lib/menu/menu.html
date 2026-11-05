@@ -1,0 +1,35 @@
+<button
+  type="button"
+  class="trigger"
+  aria-haspopup="menu"
+  [attr.aria-expanded]="open()"
+  [attr.aria-controls]="menuId"
+  (click)="toggle()"
+>
+  @if (icon()) {
+    <span class="avatar" aria-hidden="true">{{ icon() }}</span>
+  }
+  <span class="label">{{ label() }}</span>
+  <span class="chevron" aria-hidden="true">▾</span>
+</button>
+@if (open()) {
+  <ul class="panel" role="menu" [id]="menuId" [class.start]="align() === 'start'">
+    @for (item of items(); track $index) {
+      @if (item.separator) {
+        <li class="separator" role="separator"></li>
+      } @else {
+        <li role="none">
+          @if (item.link) {
+            <a role="menuitem" [routerLink]="item.link" [class.danger]="item.danger" (click)="select(item)">
+              <span class="icon" aria-hidden="true">{{ item.icon }}</span>{{ item.label }}
+            </a>
+          } @else {
+            <button type="button" role="menuitem" [class.danger]="item.danger" (click)="select(item)">
+              <span class="icon" aria-hidden="true">{{ item.icon }}</span>{{ item.label }}
+            </button>
+          }
+        </li>
+      }
+    }
+  </ul>
+}

@@ -1,0 +1,14 @@
+<header class="header">
+  <div class="heading">
+    @if (header()) {
+      <h2 class="title">{{ header() }}</h2>
+    }
+    @if (subtitle()) {
+      <p class="subtitle">{{ subtitle() }}</p>
+    }
+    <ng-content select="[gcaCardHeader]" />
+  </div>
+  <div class="actions"><ng-content select="[gcaCardActions]" /></div>
+</header>
+<div class="body"><ng-content /></div>
+<footer class="footer"><ng-content select="[gcaCardFooter]" /></footer>

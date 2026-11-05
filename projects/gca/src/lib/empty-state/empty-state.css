@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+.icon {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 50%;
+  background: var(--gca-primary-soft, #eef2ff);
+  color: var(--gca-primary, #6366f1);
+  font-size: 1.5rem;
+  box-shadow: 0 0 0 8px color-mix(in srgb, var(--gca-primary-soft, #eef2ff) 50%, transparent);
+}
+.heading { margin: 0; color: var(--gca-text, #1e293b); font-size: 1rem; font-weight: 700; }
+.description { max-width: 28rem; margin: 0; color: var(--gca-text-muted, #64748b); font-size: 0.875rem; }
+.actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+.actions:empty { display: none; }

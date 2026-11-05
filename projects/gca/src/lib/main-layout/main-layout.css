@@ -1,0 +1,75 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--gca-surface-ground, #f5f7fb);
+  color: var(--gca-text, #1e293b);
+}
+.skip-link {
+  position: absolute;
+  top: -3rem;
+  left: 1rem;
+  z-index: 1300;
+  padding: 0.5rem 1rem;
+  border-radius: var(--gca-radius-sm, 8px);
+  background: var(--gca-contrast, #0f172a);
+  color: #fff;
+}
+.skip-link:focus { top: 0.5rem; }
+.appbar { position: sticky; top: 0; z-index: 800; }
+.frame { display: flex; flex: 1; min-height: 0; }
+.sidebar {
+  position: sticky;
+  top: 3.75rem;
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  width: 15.5rem;
+  height: calc(100vh - 3.75rem);
+  overflow: hidden auto;
+  border-right: 1px solid var(--gca-border, #e2e8f0);
+  background: var(--gca-surface, #fff);
+  transition: width 0.2s ease;
+}
+.sidebar.collapsed { width: 4.25rem; }
+.sidebar.collapsed .label,
+.sidebar.collapsed .sidebar-footer { display: none; }
+.sidebar.collapsed .badge { position: absolute; top: 0.2rem; right: 0.35rem; transform: scale(0.85); }
+.nav { flex: 1; padding: 0.75rem; }
+.nav ul { display: flex; flex-direction: column; gap: 0.25rem; margin: 0; padding: 0; list-style: none; }
+.nav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--gca-radius-sm, 8px);
+  color: var(--gca-text-muted, #64748b);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.nav a:hover { background: var(--gca-surface-hover, #f1f5f9); color: var(--gca-text, #1e293b); }
+.nav a:focus-visible { outline: none; box-shadow: var(--gca-focus-ring, 0 0 0 3px rgb(99 102 241 / 35%)); }
+.nav a.active { background: var(--gca-primary-soft, #eef2ff); color: var(--gca-primary-strong, #4338ca); }
+.nav a.active::before {
+  content: '';
+  position: absolute;
+  inset: 0.5rem auto 0.5rem -0.75rem;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--gca-gradient, linear-gradient(135deg, #6366f1, #8b5cf6 55%, #d946ef));
+}
+.icon { display: grid; place-items: center; flex: none; width: 1.5rem; font-size: 1.1rem; }
+.label { flex: 1; overflow: hidden; text-overflow: ellipsis; }
+.sidebar-footer {
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--gca-border, #e2e8f0);
+  color: var(--gca-text-muted, #64748b);
+  font-size: 0.8125rem;
+}
+.content { flex: 1; min-width: 0; padding: 1.5rem clamp(1rem, 3vw, 2rem); }
+.content:focus { outline: none; }
+gca-drawer .nav { padding: 0; }

@@ -1,0 +1,6 @@
+@if (loading()) {
+  <span class="spinner" aria-hidden="true"></span>
+} @else if (icon()) {
+  <span class="icon" aria-hidden="true">{{ icon() }}</span>
+}
+<ng-content />

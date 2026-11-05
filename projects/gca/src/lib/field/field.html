@@ -1,0 +1,25 @@
+﻿@if (label()) {
+  <label class="label" [attr.for]="controlId()">
+    {{ label() }}
+    @if (isRequired()) {
+      <span class="required" aria-hidden="true">*</span>
+    }
+  </label>
+}
+<div class="control">
+  <span class="affix"><ng-content select="[gcaPrefix]" /></span>
+  <div class="main"><ng-content /></div>
+  <span class="affix"><ng-content select="[gcaSuffix]" /></span>
+</div>
+<div class="footer">
+  @if (message(); as msg) {
+    <small class="error" [id]="errorId" role="alert">{{ msg }}</small>
+  } @else if (hint()) {
+    <small class="hint" [id]="hintId">{{ hint() }}</small>
+  }
+  @if (maxLength()) {
+    <small class="counter" [class.over]="(count() ?? 0) > maxLength()!" aria-live="polite">
+      {{ count() ?? 0 }} / {{ maxLength() }}
+    </small>
+  }
+</div>

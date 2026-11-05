@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  flex: none;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #eef2f7 0%, #e0e7ff 40%, #eef2f7 80%) 0 0 / 300% 100%;
+  animation: gca-shimmer 1.4s ease-in-out infinite;
+}
+:host(.gca-circle) { border-radius: 50%; }
+@keyframes gca-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :host { animation: none; }
+}

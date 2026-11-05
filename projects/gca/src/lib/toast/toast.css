@@ -1,0 +1,65 @@
+:host {
+  position: fixed;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: min(24rem, calc(100vw - 2rem));
+  pointer-events: none;
+}
+:host(.gca-top-right) { top: 1rem; right: 1rem; }
+:host(.gca-top-center) { top: 1rem; left: 50%; transform: translateX(-50%); }
+:host(.gca-bottom-right) { right: 1rem; bottom: 1rem; flex-direction: column-reverse; }
+:host(.gca-bottom-center) { bottom: 1rem; left: 50%; flex-direction: column-reverse; transform: translateX(-50%); }
+
+.toast {
+  --_c: var(--gca-info, #0ea5e9);
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  overflow: hidden;
+  border: 1px solid var(--gca-border, #e2e8f0);
+  border-radius: var(--gca-radius, 12px);
+  background: color-mix(in srgb, var(--gca-surface, #fff) 92%, transparent);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--gca-shadow-lg, 0 12px 40px rgb(15 23 42 / 18%));
+  color: var(--gca-text, #1e293b);
+  font-size: 0.875rem;
+  pointer-events: auto;
+  animation: gca-toast-in 0.25s ease-out;
+}
+.gca-primary { --_c: var(--gca-primary, #6366f1); }
+.gca-success { --_c: var(--gca-success, #10b981); }
+.gca-warn { --_c: var(--gca-warn, #f59e0b); }
+.gca-danger { --_c: var(--gca-danger, #ef4444); }
+.gca-secondary { --_c: var(--gca-secondary, #64748b); }
+.gca-contrast { --_c: var(--gca-contrast, #0f172a); }
+.icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--_c);
+  color: #fff;
+  font-weight: 700;
+}
+.body { flex: 1; min-width: 0; }
+.body p { margin: 0.2rem 0 0; color: var(--gca-text-muted, #64748b); }
+button { border: 0; background: none; font: inherit; cursor: pointer; }
+.action { color: var(--gca-primary-strong, #4338ca); font-weight: 700; }
+.action:hover { text-decoration: underline; }
+.close { color: var(--gca-text-muted, #64748b); font-size: 1.25rem; line-height: 1; }
+.timer {
+  position: absolute;
+  inset: auto 0 0;
+  height: 3px;
+  background: var(--_c);
+  transform-origin: left;
+  animation: gca-toast-timer linear forwards;
+}
+@keyframes gca-toast-in { from { opacity: 0; transform: translateY(-8px) scale(0.98); } }
+@keyframes gca-toast-timer { to { transform: scaleX(0); } }

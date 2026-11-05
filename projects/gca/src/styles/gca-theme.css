@@ -1,0 +1,62 @@
+/*
+ * Thème GCA — jetons de design optionnels.
+ * Chaque composant embarque des valeurs de repli : ce fichier ne sert qu'à
+ * personnaliser la palette ou à poser les styles de base du document.
+ *
+ * angular.json > styles : ["node_modules/gca/styles/gca-theme.css", "src/styles.scss"]
+ */
+:root {
+  --gca-font: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --gca-primary: #6366f1;
+  --gca-primary-soft: #eef2ff;
+  --gca-primary-strong: #4338ca;
+  --gca-secondary: #64748b;
+  --gca-secondary-soft: #f1f5f9;
+  --gca-secondary-strong: #334155;
+  --gca-success: #10b981;
+  --gca-success-soft: #ecfdf5;
+  --gca-success-strong: #047857;
+  --gca-info: #0ea5e9;
+  --gca-info-soft: #f0f9ff;
+  --gca-info-strong: #0369a1;
+  --gca-warn: #f59e0b;
+  --gca-warn-soft: #fffbeb;
+  --gca-warn-strong: #b45309;
+  --gca-danger: #ef4444;
+  --gca-danger-soft: #fef2f2;
+  --gca-danger-strong: #b91c1c;
+  --gca-contrast: #0f172a;
+  --gca-contrast-soft: #e2e8f0;
+  --gca-contrast-strong: #0f172a;
+
+  --gca-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 55%, #d946ef 100%);
+  --gca-surface: #ffffff;
+  --gca-surface-ground: #f5f7fb;
+  --gca-surface-hover: #f1f5f9;
+  --gca-border: #e2e8f0;
+  --gca-text: #1e293b;
+  --gca-text-muted: #64748b;
+
+  --gca-radius: 12px;
+  --gca-radius-sm: 8px;
+  --gca-shadow: 0 1px 2px rgb(15 23 42 / 6%), 0 4px 16px rgb(15 23 42 / 6%);
+  --gca-shadow-lg: 0 12px 40px rgb(15 23 42 / 18%);
+  --gca-focus-ring: 0 0 0 3px rgb(99 102 241 / 35%);
+}
+
+html {
+  font-family: var(--gca-font);
+  color: var(--gca-text);
+  background: var(--gca-surface-ground);
+}
+
+body {
+  margin: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

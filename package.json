@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "dev": "npm run build:gca && concurrently --kill-others --names api,web --prefix-colors blue,magenta \"npm:api\" \"ng serve\"",
+    "dev:reset": "npm run build:gca && concurrently --kill-others --names api,web --prefix-colors blue,magenta \"npm:api:reset\" \"ng serve\"",
     "build:gca": "ng build gca",
     "prestart": "npm run build:gca",
     "start": "ng serve",
@@ -32,6 +34,7 @@
     "@angular/build": "^22.2.5",
     "@angular/cli": "^22.2.5",
     "@angular/compiler-cli": "^22.2.0",
+    "concurrently": "^10.0.6",
     "jsdom": "^30.0.0",
     "json-server": "0.17.4",
     "ng-packagr": "^22.2.0",

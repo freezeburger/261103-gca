@@ -768,7 +768,14 @@ navigateur ──https──▶ ng serve :4200 ──/api/* (préfixe retiré)�
                       (certs/localhost.*)   proxy.conf.json           server/server.cjs
 ```
 
-**Démarrage** (deux terminaux) :
+**Démarrage** — une seule commande :
+
+```bash
+npm run dev        # ng build gca, puis json-server :5050 et ng serve :4200 en parallèle (Ctrl+C arrête les deux)
+npm run dev:reset  # idem, avec restauration des données de référence
+```
+
+Ou séparément, dans deux terminaux :
 
 ```bash
 npm run api      # json-server sur http://localhost:5050 (npm run api:reset : données de référence)
@@ -799,6 +806,7 @@ Les données de référence (`server/db.seed.json` : 100 produits issus de Dummy
 
 | Script | Commande |
 | --- | --- |
+| `dev` / `dev:reset` | `ng build gca`, puis `concurrently` : `api` (ou `api:reset`) et `ng serve` ; l'arrêt de l'un arrête l'autre |
 | `start` | `ng build gca` (via `prestart`) puis `ng serve` (HTTPS + proxy) |
 | `api` / `api:reset` | `node server/server.cjs` (`--reset` : recopie `db.seed.json`) |
 | `build` | `ng build gca` puis `ng build application` |

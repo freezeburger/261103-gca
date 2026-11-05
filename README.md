@@ -4,7 +4,14 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Development server
 
-The application needs the json-server API (port 5050) and the Angular dev server (HTTPS, port 4200). Run them in two terminals:
+The application needs the json-server API (port 5050) and the Angular dev server (HTTPS, port 4200). One command starts everything:
+
+```bash
+npm run dev        # builds the gca library, then runs the API and https://localhost:4200/ side by side (Ctrl+C stops both)
+npm run dev:reset  # same, restoring the API seed data first
+```
+
+Or run them separately in two terminals:
 
 ```bash
 npm run api      # json-server on http://localhost:5050 (npm run api:reset restores the seed data)

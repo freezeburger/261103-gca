@@ -44,7 +44,7 @@ __screenshots__/
 Thumbs.db
 
 # Development data and certificates (see workflow/documentation/ARCHITECTURE.md)
-/server/db.json
-/certs/*
+# /server/db.json
+# /certs/*
 !/certs/README.md
 

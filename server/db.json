@@ -290,7 +290,7 @@
       "title": "Lemon",
       "description": "Zesty and tangy lemons, versatile for cooking, baking, or making refreshing beverages.",
       "price": 0.79,
-      "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/lemon/thumbnail.webp",
+      "thumbnail": "https://mr-ginseng.com/wp-content/uploads/2017/03/CITRON.webp",
       "category": "groceries",
       "stock": 31
     },
@@ -1002,6 +1002,19 @@
       "message": "Votre espace Atelier est prêt.",
       "createdAt": "2026-11-01T09:00:00.000Z",
       "readAt": null
+    },
+    {
+      "level": "success",
+      "title": "Produit enregistré",
+      "message": "Lemon",
+      "action": {
+        "label": "Voir le produit",
+        "link": "/products/31"
+      },
+      "userId": 2,
+      "id": "b589bb19-6f2e-478b-a769-a6dbbafd1108",
+      "createdAt": "2026-11-06T11:46:16.844Z",
+      "readAt": "2026-11-06T11:46:24.845Z"
     }
   ]
 }

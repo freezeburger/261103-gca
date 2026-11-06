@@ -1,0 +1,1095 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search">
+    <button type="button"
+        class="search-input-clear"
+        aria-label="Clear search"
+        data-search-input-clear>&times;</button>
+</div>
+            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#API_BASE_URL" title="src/app/core/http/api-url-interceptor.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>API_BASE_URL</b>&nbsp;&nbsp;&nbsp;(src/.../api-url-interceptor.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#API_REQUEST" title="src/app/infra/api/api-service.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>API_REQUEST</b>&nbsp;&nbsp;&nbsp;(src/.../api-service.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#apiUrlInterceptor" title="src/app/core/http/api-url-interceptor.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>apiUrlInterceptor</b>&nbsp;&nbsp;&nbsp;(src/.../api-url-interceptor.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#appConfig" title="src/app/config/app.config.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>appConfig</b>&nbsp;&nbsp;&nbsp;(src/.../app.config.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#authInterceptor" title="src/app/core/auth/auth-interceptors.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>authInterceptor</b>&nbsp;&nbsp;&nbsp;(src/.../auth-interceptors.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#authSessionSchema" title="src/app/core/schemas/auth.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>authSessionSchema</b>&nbsp;&nbsp;&nbsp;(src/.../auth.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#authUserSchema" title="src/app/core/schemas/auth.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>authUserSchema</b>&nbsp;&nbsp;&nbsp;(src/.../auth.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_SIZE" title="src/app/features/products/pages/product-search-page.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>DEFAULT_SIZE</b>&nbsp;&nbsp;&nbsp;(src/.../product-search-page.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#LEVELS" title="src/app/features/notifications/pages/notifications-page.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>LEVELS</b>&nbsp;&nbsp;&nbsp;(src/.../notifications-page.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#loginResponseSchema" title="src/app/core/schemas/auth.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>loginResponseSchema</b>&nbsp;&nbsp;&nbsp;(src/.../auth.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#notificationLevelSchema" title="src/app/core/schemas/notifications.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>notificationLevelSchema</b>&nbsp;&nbsp;&nbsp;(src/.../notifications.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#notificationListSchema" title="src/app/core/schemas/notifications.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>notificationListSchema</b>&nbsp;&nbsp;&nbsp;(src/.../notifications.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#notificationSchema" title="src/app/core/schemas/notifications.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>notificationSchema</b>&nbsp;&nbsp;&nbsp;(src/.../notifications.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#PAGE_SIZE" title="src/app/features/notifications/pages/notifications-page.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>PAGE_SIZE</b>&nbsp;&nbsp;&nbsp;(src/.../notifications-page.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#productChangesSchema" title="src/app/core/schemas/products.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>productChangesSchema</b>&nbsp;&nbsp;&nbsp;(src/.../products.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#productListSchema" title="src/app/core/schemas/products.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>productListSchema</b>&nbsp;&nbsp;&nbsp;(src/.../products.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#productSchema" title="src/app/core/schemas/products.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>productSchema</b>&nbsp;&nbsp;&nbsp;(src/.../products.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#routes" title="src/app/app.routes.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>routes</b>&nbsp;&nbsp;&nbsp;(src/.../app.routes.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#SESSION_STORAGES" title="src/app/core/auth/auth-service.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>SESSION_STORAGES</b>&nbsp;&nbsp;&nbsp;(src/.../auth-service.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#SORT_OPTIONS" title="src/app/features/products/pages/product-search-page.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>SORT_OPTIONS</b>&nbsp;&nbsp;&nbsp;(src/.../product-search-page.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#STORAGE_KEY" title="src/app/core/auth/auth-service.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>STORAGE_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../auth-service.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#unauthorizedInterceptor" title="src/app/core/auth/auth-interceptors.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>unauthorizedInterceptor</b>&nbsp;&nbsp;&nbsp;(src/.../auth-interceptors.ts)</span></a>
+                        </li>
+                        <li>
+                            <a href="#UNDO_DELAY" title="src/app/features/notifications/pages/notifications-page.ts" class="reference-link "><span class="reference-badge reference-badge--variable" aria-hidden="true">V</span><span class="reference-link-label"><b>UNDO_DELAY</b>&nbsp;&nbsp;&nbsp;(src/.../notifications-page.ts)</span></a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>src/app/core/http/api-url-interceptor.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="API_BASE_URL"></a>
+                    <span class="name">
+                        <span ><b>API_BASE_URL</b></span>
+                        <a href="#API_BASE_URL"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&#x27;API_BASE_URL&#x27;, {
+  providedIn: &#x27;root&#x27;,
+  factory: () &#x3D;&gt; &#x27;/api&#x27;,
+})</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Préfixe des requêtes backend. En développement, <code>ng serve</code> relaie <code>/api</code> vers json-server
+(<code>proxy.conf.json</code>) ; un déploiement fournit sa propre valeur sans toucher aux services d&#39;API.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="apiUrlInterceptor"></a>
+                    <span class="name">
+                        <span ><b>apiUrlInterceptor</b></span>
+                        <a href="#apiUrlInterceptor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.dev/api/common/http/HttpInterceptorFn" target="_blank" >HttpInterceptorFn</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(req, next) &#x3D;&gt; {
+  if (!req.context.get(API_REQUEST)) {
+    return next(req);
+  }
+  const base &#x3D; inject(API_BASE_URL).replace(/\/+$/, &#x27;&#x27;);
+  const path &#x3D; req.url.replace(/^\/+/, &#x27;&#x27;);
+  return next(req.clone({ url: &#x60;${base}/${path}&#x60; }));
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Proxification : <code>products/12</code> → <code>/api/products/12</code>, uniquement pour les requêtes d&#39;<code>ApiService</code>.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/infra/api/api-service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="API_REQUEST"></a>
+                    <span class="name">
+                        <span ><b>API_REQUEST</b></span>
+                        <a href="#API_REQUEST"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new HttpContextToken&lt;boolean&gt;(() &#x3D;&gt; false)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Marque une requête comme destinée au backend : seules ces requêtes sont préfixées par
+<code>API_BASE_URL</code> (proxification) et reçoivent le jeton d&#39;authentification.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/config/app.config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="appConfig"></a>
+                    <span class="name">
+                        <span ><b>appConfig</b></span>
+                        <a href="#appConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/App.html" target="_self" >ApplicationConfig</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes, withComponentInputBinding()),
+    // Ordre : proxification (/api), jeton, puis gestion du 401 au retour.
+    provideHttpClient(withInterceptors([apiUrlInterceptor, authInterceptor, unauthorizedInterceptor])),
+    { provide: LOCALE_ID, useValue: &#x27;fr-FR&#x27; },
+    { provide: DEFAULT_CURRENCY_CODE, useValue: &#x27;EUR&#x27; },
+  ],
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/core/auth/auth-interceptors.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authInterceptor"></a>
+                    <span class="name">
+                        <span ><b>authInterceptor</b></span>
+                        <a href="#authInterceptor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.dev/api/common/http/HttpInterceptorFn" target="_blank" >HttpInterceptorFn</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(req, next) &#x3D;&gt; {
+  const token &#x3D; inject(AuthService).token();
+  if (!token || !req.context.get(API_REQUEST)) {
+    return next(req);
+  }
+  return next(req.clone({ setHeaders: { Authorization: &#x60;Bearer ${token}&#x60; } }));
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Injecte le jeton de session, uniquement sur les requêtes destinées au backend.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unauthorizedInterceptor"></a>
+                    <span class="name">
+                        <span ><b>unauthorizedInterceptor</b></span>
+                        <a href="#unauthorizedInterceptor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.dev/api/common/http/HttpInterceptorFn" target="_blank" >HttpInterceptorFn</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(req, next) &#x3D;&gt; {
+  const auth &#x3D; inject(AuthService);
+  const router &#x3D; inject(Router);
+  return next(req).pipe(
+    catchError((error: unknown) &#x3D;&gt; {
+      if (
+        error instanceof HttpErrorResponse &amp;&amp;
+        error.status &#x3D;&#x3D;&#x3D; 401 &amp;&amp;
+        req.context.get(API_REQUEST) &amp;&amp;
+        auth.isAuthenticated()
+      ) {
+        auth.clear();
+        void router.navigate([&#x27;/login&#x27;], { queryParams: { returnUrl: router.url } });
+      }
+      return throwError(() &#x3D;&gt; error);
+    }),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Session expirée : sur un 401 du backend alors qu&#39;une session existe, retour à la connexion.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/core/schemas/auth.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authSessionSchema"></a>
+                    <span class="name">
+                        <span ><b>authSessionSchema</b></span>
+                        <a href="#authSessionSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>loginResponseSchema</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Session conservée dans le stockage du navigateur ; relue et validée au démarrage.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authUserSchema"></a>
+                    <span class="name">
+                        <span ><b>authUserSchema</b></span>
+                        <a href="#authUserSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>z.object({
+  id: z.number().int(),
+  name: z.string(),
+  email: z.string(),
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loginResponseSchema"></a>
+                    <span class="name">
+                        <span ><b>loginResponseSchema</b></span>
+                        <a href="#loginResponseSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>z.object({
+  token: z.string().min(1),
+  expiresAt: z.iso.datetime(),
+  user: authUserSchema,
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/features/products/pages/product-search-page.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_SIZE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_SIZE</b></span>
+                        <a href="#DEFAULT_SIZE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>20</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SORT_OPTIONS"></a>
+                    <span class="name">
+                        <span ><b>SORT_OPTIONS</b></span>
+                        <a href="#SORT_OPTIONS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  { value: &#x27;&#x27;, label: &#x27;Pertinence&#x27; },
+  { value: &#x27;title:asc&#x27;, label: &#x27;Titre A → Z&#x27; },
+  { value: &#x27;title:desc&#x27;, label: &#x27;Titre Z → A&#x27; },
+  { value: &#x27;price:asc&#x27;, label: &#x27;Prix croissant&#x27; },
+  { value: &#x27;price:desc&#x27;, label: &#x27;Prix décroissant&#x27; },
+] as const</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/features/notifications/pages/notifications-page.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="LEVELS"></a>
+                    <span class="name">
+                        <span ><b>LEVELS</b></span>
+                        <a href="#LEVELS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#NotificationLevel" target="_self" >Record&lt;NotificationLevel, { label: string; severity: GcaSeverity }&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  error: { label: &#x27;ERREUR&#x27;, severity: &#x27;danger&#x27; },
+  warning: { label: &#x27;AVERT.&#x27;, severity: &#x27;warn&#x27; },
+  success: { label: &#x27;SUCCÈS&#x27;, severity: &#x27;success&#x27; },
+  info: { label: &#x27;INFO&#x27;, severity: &#x27;info&#x27; },
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PAGE_SIZE"></a>
+                    <span class="name">
+                        <span ><b>PAGE_SIZE</b></span>
+                        <a href="#PAGE_SIZE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>20</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UNDO_DELAY"></a>
+                    <span class="name">
+                        <span ><b>UNDO_DELAY</b></span>
+                        <a href="#UNDO_DELAY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>5000</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/core/schemas/notifications.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notificationLevelSchema"></a>
+                    <span class="name">
+                        <span ><b>notificationLevelSchema</b></span>
+                        <a href="#notificationLevelSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>z.enum([&#x27;info&#x27;, &#x27;success&#x27;, &#x27;warning&#x27;, &#x27;error&#x27;])</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notificationListSchema"></a>
+                    <span class="name">
+                        <span ><b>notificationListSchema</b></span>
+                        <a href="#notificationListSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>z.array(notificationSchema)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notificationSchema"></a>
+                    <span class="name">
+                        <span ><b>notificationSchema</b></span>
+                        <a href="#notificationSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>z.object({
+  id: z.string(),
+  level: notificationLevelSchema,
+  title: z.string(),
+  message: z.string(),
+  createdAt: z.string(),
+  readAt: z.string().nullable(),
+  action: z.object({ label: z.string(), link: z.string() }).optional(),
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/core/schemas/products.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="productChangesSchema"></a>
+                    <span class="name">
+                        <span ><b>productChangesSchema</b></span>
+                        <a href="#productChangesSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>productSchema.pick({
+  title: true,
+  description: true,
+  price: true,
+  thumbnail: true,
+})</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Champs modifiables depuis l&#39;écran de modification (maquette 04).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="productListSchema"></a>
+                    <span class="name">
+                        <span ><b>productListSchema</b></span>
+                        <a href="#productListSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>z.array(productSchema)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="productSchema"></a>
+                    <span class="name">
+                        <span ><b>productSchema</b></span>
+                        <a href="#productSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>z.object({
+  id: z.number().int().positive(),
+  title: z.string(),
+  description: z.string(),
+  price: z.number(),
+  thumbnail: z.string(),
+  category: z.string().optional(),
+  brand: z.string().optional(),
+  stock: z.number().int().optional(),
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/app.routes.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="routes"></a>
+                    <span class="name">
+                        <span ><b>routes</b></span>
+                        <a href="#routes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.dev/api/router/Routes" target="_blank" >Routes</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  {
+    path: &#x27;login&#x27;,
+    title: &#x27;Connexion · Atelier&#x27;,
+    canActivate: [guestGuard],
+    loadComponent: () &#x3D;&gt; &quot;import(&#x27;./features/auth/pages/login-page&#x27;)&quot;,
+  },
+  {
+    path: &#x27;&#x27;,
+    canActivate: [authGuard],
+    loadComponent: () &#x3D;&gt; &quot;import(&#x27;./shell/app-layout&#x27;)&quot;,
+    children: [
+      { path: &#x27;products&#x27;, loadChildren: () &#x3D;&gt; &quot;import(&#x27;./features/products/products.routes&#x27;)&quot; },
+      {
+        path: &#x27;notifications&#x27;,
+        title: &#x27;Notifications · Atelier&#x27;,
+        loadComponent: () &#x3D;&gt; &quot;import(&#x27;./features/notifications/pages/notifications-page&#x27;)&quot;,
+      },
+      { path: &#x27;not-found&#x27;, title: &#x27;Page introuvable · Atelier&#x27;, loadComponent: () &#x3D;&gt; &quot;import(&#x27;./shell/not-found-page&#x27;)&quot; },
+      { path: &#x27;&#x27;, pathMatch: &#x27;full&#x27;, redirectTo: &#x27;products&#x27; },
+    ],
+  },
+  { path: &#x27;**&#x27;, title: &#x27;Page introuvable · Atelier&#x27;, loadComponent: () &#x3D;&gt; &quot;import(&#x27;./shell/not-found-page&#x27;)&quot; },
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/core/auth/auth-service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SESSION_STORAGES"></a>
+                    <span class="name">
+                        <span ><b>SESSION_STORAGES</b></span>
+                        <a href="#SESSION_STORAGES"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;SessionStorages&gt;(&#x27;SESSION_STORAGES&#x27;, {
+  providedIn: &#x27;root&#x27;,
+  factory: () &#x3D;&gt; ({ persistent: localStorage, session: sessionStorage }),
+})</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Stockages de la session, remplaçables en test.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="STORAGE_KEY"></a>
+                    <span class="name">
+                        <span ><b>STORAGE_KEY</b></span>
+                        <a href="#STORAGE_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;atelier.session&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var updateDarkModeSwitchOffset = function () {
+                    var content = document.querySelector('.content');
+                    var scrollbarWidth = 0;
+
+                    if (content) {
+                         scrollbarWidth = Math.max(0, content.offsetWidth - content.clientWidth);
+                    }
+
+                    document.documentElement.style.setProperty(
+                         '--content-scrollbar-width',
+                         scrollbarWidth + 'px'
+                    );
+               };
+
+               updateDarkModeSwitchOffset();
+               requestAnimationFrame(updateDarkModeSwitchOffset);
+               window.addEventListener('resize', updateDarkModeSwitchOffset);
+
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

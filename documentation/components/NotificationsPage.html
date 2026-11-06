@@ -1,0 +1,2067 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search">
+    <button type="button"
+        class="search-input-clear"
+        aria-label="Clear search"
+        data-search-input-clear>&times;</button>
+</div>
+            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  NotificationsPage</li>
+</ol>
+
+<div class="io-file io-file-path" data-compodoc="entity-file-path">
+    <span class="icon ion-ios-document" aria-hidden="true"></span>
+    <code>src/app/features/notifications/pages/notifications-page.ts</code>
+</div>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#api" class="nav-link"
+                role="tab" id="api-tab" data-bs-toggle="tab" data-link="api">API</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.dev/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-notifications-page</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                        <div>        <code><a href="https://angular.dev/api/common/DatePipe" target="_blank" >DatePipe</a></code>
+</div>
+                        <div>        <code><a href="https://angular.dev/api/router/RouterLink" target="_blank" >RouterLink</a></code>
+</div>
+                        <div>    <code>GcaButton</code>
+</div>
+                        <div>    <code>GcaCard</code>
+</div>
+                        <div>    <code>GcaEmptyState</code>
+</div>
+                        <div>    <code>GcaSelect</code>
+</div>
+                        <div>    <code>GcaSelectButton</code>
+</div>
+                        <div>    <code>GcaSkeleton</code>
+</div>
+                        <div>    <code>GcaTag</code>
+</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./notifications-page.scss</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./notifications-page.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./notifications-page.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+        <section data-compodoc="block-relationships">
+            <h3>Relationships</h3>
+
+            <div class="row pt-3">
+                <div class="col-sm-6">
+                    <h4>Used by</h4>
+                        <p class="comment"><i>No results matching.</i></p>
+                </div>
+
+                <div class="col-sm-6">
+                    <h4>Depends on</h4>
+                        <ul class="list-unstyled relationships-list">
+                                <li>
+                                            <code><a href="https://angular.dev/api/common/DatePipe" target="_blank" >DatePipe</a></code>
+                                </li>
+                                <li>
+                                            <code><a href="https://angular.dev/api/router/RouterLink" target="_blank" >RouterLink</a></code>
+                                </li>
+                                <li>
+                                        <code>GcaButton</code>
+                                </li>
+                                <li>
+                                        <code>GcaCard</code>
+                                </li>
+                                <li>
+                                        <code>GcaEmptyState</code>
+                                </li>
+                                <li>
+                                        <code>GcaSelect</code>
+                                </li>
+                                <li>
+                                        <code>GcaSelectButton</code>
+                                </li>
+                                <li>
+                                        <code>GcaSkeleton</code>
+                                </li>
+                                <li>
+                                        <code>GcaTag</code>
+                                </li>
+                                <li>
+                                            <code><a href="https://angular.dev/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                                </li>
+                        </ul>
+                </div>
+            </div>
+        </section>
+</div>
+
+    <div class="tab-pane fade " id="api">    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+        <table class="table table-sm table-bordered index-table">
+            <tbody>
+                <tr>
+                    <td class="col-md-3">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                    <td class="col-md-9">
+                        <ul class="index-list">
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#emptyMessage" >emptyMessage</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#filtered" >filtered</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#groups" >groups</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#level" >level</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#levelEntries" >levelEntries</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#levels" >levels</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#limit" >limit</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#pendingRemoval" >pendingRemoval</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#route" >route</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#status" >status</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#statusOptions" >statusOptions</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#store" >store</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#timers" >timers</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#toasts" >toasts</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#unreadCount" >unreadCount</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#visible" >visible</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-sm table-bordered index-table">
+            <tbody>
+                <tr>
+                    <td class="col-md-3">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                    <td class="col-md-9">
+                        <ul class="index-list">
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Protected</span>
+                                <a href="#changeLevel" >changeLevel</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Private</span>
+                                <a href="#commitRemoval" >commitRemoval</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Protected</span>
+                                <a href="#loadMore" >loadMore</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Protected</span>
+                                <a href="#navigate" >navigate</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Protected</span>
+                                <a href="#remove" >remove</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Private</span>
+                                <a href="#setPending" >setPending</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-sm table-bordered index-table">
+            <tbody>
+                <tr>
+                    <td class="col-md-3">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                    <td class="col-md-9">
+                        <ul class="index-list">
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">I</span><a href="#level" >level</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">I</span><a href="#status" >status</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="level"></a>
+                        <b>level</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#NotificationLevel" target="_self" >NotificationLevel | undefined</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>undefined</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:44</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="status"></a>
+                        <b>status</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#Status" target="_self" >Status | undefined</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>undefined</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:43</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changeLevel"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>changeLevel</b></span>
+                        <a href="#changeLevel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>changeLevel(event: <a href="https://angular.dev/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.dev/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="commitRemoval"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>commitRemoval</b></span>
+                        <a href="#commitRemoval"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>commitRemoval(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="130"
+                                    class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:130</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadMore"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>loadMore</b></span>
+                        <a href="#loadMore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadMore()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="98"
+                                    class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:98</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigate"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>navigate</b></span>
+                        <a href="#navigate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>navigate(queryParams: <a href="https://angular.dev/api/router/Params" target="_blank">Params</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="89"
+                                    class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>queryParams</td>
+                                            <td>
+                                                            <code><a href="https://angular.dev/api/router/Params" target="_blank" >Params</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="124"
+                                    class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:124</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>En quittant l&#39;écran, les suppressions en attente sont confirmées.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="remove"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>remove</b></span>
+                        <a href="#remove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>remove(n: <a href="../miscellaneous/typealiases.html#AppNotification" target="_self">AppNotification</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Suppression différée de 5 s, annulable depuis le toast.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#AppNotification" target="_self" >AppNotification</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setPending"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setPending</b></span>
+                        <a href="#setPending"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setPending(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, pending: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="137"
+                                    class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:137</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>pending</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emptyMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>emptyMessage</b></span>
+                        <a href="#emptyMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt;
+    this.status() &#x3D;&#x3D;&#x3D; &#x27;unread&#x27; ? &#x27;Aucune notification non lue.&#x27; : &#x27;Aucune notification.&#x27;,
+  )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filtered"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>filtered</b></span>
+                        <a href="#filtered"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt;
+    this.visible()
+      .filter((n) &#x3D;&gt; this.status() &#x3D;&#x3D;&#x3D; &#x27;all&#x27; || (this.status() &#x3D;&#x3D;&#x3D; &#x27;unread&#x27;) &#x3D;&#x3D;&#x3D; !n.readAt)
+      .filter((n) &#x3D;&gt; !this.level() || n.level &#x3D;&#x3D;&#x3D; this.level())
+      .sort((a, b) &#x3D;&gt; b.createdAt.localeCompare(a.createdAt)),
+  )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="groups"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>groups</b></span>
+                        <a href="#groups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+    const today &#x3D; new Date().setHours(0, 0, 0, 0);
+    const yesterday &#x3D; today - 86_400_000;
+    const groups &#x3D; [
+      { label: &quot;Aujourd&#x27;hui&quot;, items: [] as AppNotification[] },
+      { label: &#x27;Hier&#x27;, items: [] as AppNotification[] },
+      { label: &#x27;Plus ancien&#x27;, items: [] as AppNotification[] },
+    ];
+    for (const n of this.filtered().slice(0, this.limit())) {
+      const time &#x3D; new Date(n.createdAt).getTime();
+      groups[time &gt;&#x3D; today ? 0 : time &gt;&#x3D; yesterday ? 1 : 2].items.push(n);
+    }
+    return groups.filter((group) &#x3D;&gt; group.items.length &gt; 0);
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="level"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>level</b></span>
+                        <a href="#level"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.levelParam() ?? null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="levelEntries"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>levelEntries</b></span>
+                        <a href="#levelEntries"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Object.entries(LEVELS) as [NotificationLevel, (typeof LEVELS)[NotificationLevel]][]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="levels"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>levels</b></span>
+                        <a href="#levels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>LEVELS</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="limit"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>limit</b></span>
+                        <a href="#limit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(PAGE_SIZE)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pendingRemoval"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>pendingRemoval</b></span>
+                        <a href="#pendingRemoval"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;ReadonlySet&lt;string&gt;&gt;(new Set())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="route"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>route</b></span>
+                        <a href="#route"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ActivatedRoute)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="status"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>status</b></span>
+                        <a href="#status"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed&lt;Status&gt;(() &#x3D;&gt; this.statusParam() ?? &#x27;all&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="statusOptions"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>statusOptions</b></span>
+                        <a href="#statusOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed&lt;GcaSelectButtonOption&lt;Status&gt;[]&gt;(() &#x3D;&gt; {
+    const total &#x3D; this.visible().length;
+    const unread &#x3D; this.unreadCount();
+    return [
+      { label: &#x27;Toutes&#x27;, value: &#x27;all&#x27;, count: total },
+      { label: &#x27;Non lues&#x27;, value: &#x27;unread&#x27;, count: unread },
+      { label: &#x27;Lues&#x27;, value: &#x27;read&#x27;, count: total - unread },
+    ];
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="store"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>store</b></span>
+                        <a href="#store"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NotificationStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="timers"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>timers</b></span>
+                        <a href="#timers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;string, ReturnType&lt;typeof setTimeout&gt;&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toasts"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>toasts</b></span>
+                        <a href="#toasts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(GcaToastService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unreadCount"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>unreadCount</b></span>
+                        <a href="#unreadCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.visible().filter((n) &#x3D;&gt; !n.readAt).length)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="visible"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>visible</b></span>
+                        <a href="#visible"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.store.items().filter((n) &#x3D;&gt; !this.pendingRemoval().has(n.id)))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/features/notifications/pages/notifications-page.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DatePipe } from &#x27;@angular/common&#x27;;
+import { Component, computed, inject, input, OnDestroy, signal } from &#x27;@angular/core&#x27;;
+import { ActivatedRoute, Params, Router, RouterLink } from &#x27;@angular/router&#x27;;
+import {
+  GcaButton,
+  GcaCard,
+  GcaEmptyState,
+  GcaSelect,
+  GcaSelectButton,
+  GcaSelectButtonOption,
+  GcaSeverity,
+  GcaSkeleton,
+  GcaTag,
+  GcaToastService,
+} from &#x27;gca&#x27;;
+import { AppNotification, NotificationLevel, NotificationStore } from &#x27;../../../core/notifications/notification-store&#x27;;
+
+type Status &#x3D; &#x27;all&#x27; | &#x27;unread&#x27; | &#x27;read&#x27;;
+
+const LEVELS: Record&lt;NotificationLevel, { label: string; severity: GcaSeverity }&gt; &#x3D; {
+  error: { label: &#x27;ERREUR&#x27;, severity: &#x27;danger&#x27; },
+  warning: { label: &#x27;AVERT.&#x27;, severity: &#x27;warn&#x27; },
+  success: { label: &#x27;SUCCÈS&#x27;, severity: &#x27;success&#x27; },
+  info: { label: &#x27;INFO&#x27;, severity: &#x27;info&#x27; },
+};
+const PAGE_SIZE &#x3D; 20;
+const UNDO_DELAY &#x3D; 5000;
+
+@Component({
+  selector: &#x27;app-notifications-page&#x27;,
+  imports: [DatePipe, RouterLink, GcaButton, GcaCard, GcaEmptyState, GcaSelect, GcaSelectButton, GcaSkeleton, GcaTag],
+  templateUrl: &#x27;./notifications-page.html&#x27;,
+  styleUrl: &#x27;./notifications-page.scss&#x27;,
+})
+export default class NotificationsPage implements OnDestroy {
+  protected readonly store &#x3D; inject(NotificationStore);
+  private readonly toasts &#x3D; inject(GcaToastService);
+  private readonly router &#x3D; inject(Router);
+  private readonly route &#x3D; inject(ActivatedRoute);
+  private readonly timers &#x3D; new Map&lt;string, ReturnType&lt;typeof setTimeout&gt;&gt;();
+
+  // Paramètres d&#x27;URL reçus via withComponentInputBinding()
+  readonly statusParam &#x3D; input&lt;Status | undefined&gt;(undefined, { alias: &#x27;status&#x27; });
+  readonly levelParam &#x3D; input&lt;NotificationLevel | undefined&gt;(undefined, { alias: &#x27;level&#x27; });
+
+  protected readonly levels &#x3D; LEVELS;
+  protected readonly levelEntries &#x3D; Object.entries(LEVELS) as [NotificationLevel, (typeof LEVELS)[NotificationLevel]][];
+  protected readonly limit &#x3D; signal(PAGE_SIZE);
+  private readonly pendingRemoval &#x3D; signal&lt;ReadonlySet&lt;string&gt;&gt;(new Set());
+
+  protected readonly status &#x3D; computed&lt;Status&gt;(() &#x3D;&gt; this.statusParam() ?? &#x27;all&#x27;);
+  protected readonly level &#x3D; computed(() &#x3D;&gt; this.levelParam() ?? null);
+
+  protected readonly visible &#x3D; computed(() &#x3D;&gt; this.store.items().filter((n) &#x3D;&gt; !this.pendingRemoval().has(n.id)));
+  protected readonly unreadCount &#x3D; computed(() &#x3D;&gt; this.visible().filter((n) &#x3D;&gt; !n.readAt).length);
+  protected readonly statusOptions &#x3D; computed&lt;GcaSelectButtonOption&lt;Status&gt;[]&gt;(() &#x3D;&gt; {
+    const total &#x3D; this.visible().length;
+    const unread &#x3D; this.unreadCount();
+    return [
+      { label: &#x27;Toutes&#x27;, value: &#x27;all&#x27;, count: total },
+      { label: &#x27;Non lues&#x27;, value: &#x27;unread&#x27;, count: unread },
+      { label: &#x27;Lues&#x27;, value: &#x27;read&#x27;, count: total - unread },
+    ];
+  });
+  protected readonly filtered &#x3D; computed(() &#x3D;&gt;
+    this.visible()
+      .filter((n) &#x3D;&gt; this.status() &#x3D;&#x3D;&#x3D; &#x27;all&#x27; || (this.status() &#x3D;&#x3D;&#x3D; &#x27;unread&#x27;) &#x3D;&#x3D;&#x3D; !n.readAt)
+      .filter((n) &#x3D;&gt; !this.level() || n.level &#x3D;&#x3D;&#x3D; this.level())
+      .sort((a, b) &#x3D;&gt; b.createdAt.localeCompare(a.createdAt)),
+  );
+  protected readonly groups &#x3D; computed(() &#x3D;&gt; {
+    const today &#x3D; new Date().setHours(0, 0, 0, 0);
+    const yesterday &#x3D; today - 86_400_000;
+    const groups &#x3D; [
+      { label: &quot;Aujourd&#x27;hui&quot;, items: [] as AppNotification[] },
+      { label: &#x27;Hier&#x27;, items: [] as AppNotification[] },
+      { label: &#x27;Plus ancien&#x27;, items: [] as AppNotification[] },
+    ];
+    for (const n of this.filtered().slice(0, this.limit())) {
+      const time &#x3D; new Date(n.createdAt).getTime();
+      groups[time &gt;&#x3D; today ? 0 : time &gt;&#x3D; yesterday ? 1 : 2].items.push(n);
+    }
+    return groups.filter((group) &#x3D;&gt; group.items.length &gt; 0);
+  });
+  protected readonly emptyMessage &#x3D; computed(() &#x3D;&gt;
+    this.status() &#x3D;&#x3D;&#x3D; &#x27;unread&#x27; ? &#x27;Aucune notification non lue.&#x27; : &#x27;Aucune notification.&#x27;,
+  );
+
+  protected navigate(queryParams: Params): void {
+    this.limit.set(PAGE_SIZE);
+    void this.router.navigate([], { relativeTo: this.route, queryParams, queryParamsHandling: &#x27;merge&#x27; });
+  }
+
+  protected changeLevel(event: Event): void {
+    this.navigate({ level: (event.target as HTMLSelectElement).value || null });
+  }
+
+  protected loadMore(): void {
+    this.limit.update((limit) &#x3D;&gt; limit + PAGE_SIZE);
+  }
+
+  /** Suppression différée de 5 s, annulable depuis le toast. */
+  protected remove(n: AppNotification): void {
+    this.setPending(n.id, true);
+    this.timers.set(
+      n.id,
+      setTimeout(() &#x3D;&gt; this.commitRemoval(n.id), UNDO_DELAY),
+    );
+    this.toasts.show({
+      summary: &#x27;Notification supprimée.&#x27;,
+      life: UNDO_DELAY,
+      action: {
+        label: &#x27;Annuler&#x27;,
+        run: () &#x3D;&gt; {
+          clearTimeout(this.timers.get(n.id));
+          this.timers.delete(n.id);
+          this.setPending(n.id, false);
+        },
+      },
+    });
+  }
+
+  /** En quittant l&#x27;écran, les suppressions en attente sont confirmées. */
+  ngOnDestroy(): void {
+    for (const id of [...this.timers.keys()]) {
+      this.commitRemoval(id);
+    }
+  }
+
+  private commitRemoval(id: string): void {
+    clearTimeout(this.timers.get(id));
+    this.timers.delete(id);
+    this.store.remove(id);
+    this.setPending(id, false);
+  }
+
+  private setPending(id: string, pending: boolean): void {
+    this.pendingRemoval.update((ids) &#x3D;&gt; {
+      const next &#x3D; new Set(ids);
+      if (pending) next.add(id);
+      else next.delete(id);
+      return next;
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;header class&#x3D;&quot;page-header&quot;&gt;
+  &lt;div&gt;
+    &lt;h1&gt;Notifications&lt;/h1&gt;
+    &lt;p&gt;{{ unreadCount() }} non lue{{ unreadCount() &gt; 1 ? &#x27;s&#x27; : &#x27;&#x27; }} sur {{ visible().length }}&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button
+    gcaButton
+    type&#x3D;&quot;button&quot;
+    variant&#x3D;&quot;outlined&quot;
+    icon&#x3D;&quot;✓&quot;
+    [disabled]&#x3D;&quot;store.unreadCount() &#x3D;&#x3D;&#x3D; 0&quot;
+    (click)&#x3D;&quot;store.markAllAsRead()&quot;
+  &gt;
+    Tout marquer comme lu
+  &lt;/button&gt;
+&lt;/header&gt;
+
+&lt;gca-card&gt;
+  &lt;div class&#x3D;&quot;filters&quot;&gt;
+    &lt;gca-select-button
+      ariaLabel&#x3D;&quot;Statut&quot;
+      [options]&#x3D;&quot;statusOptions()&quot;
+      [value]&#x3D;&quot;status()&quot;
+      (valueChange)&#x3D;&quot;navigate({ status: $event &#x3D;&#x3D;&#x3D; &#x27;all&#x27; ? null : $event })&quot;
+    /&gt;
+    &lt;select gcaSelect class&#x3D;&quot;level&quot; aria-label&#x3D;&quot;Niveau&quot; (change)&#x3D;&quot;changeLevel($event)&quot;&gt;
+      &lt;option value&#x3D;&quot;&quot;&gt;Tous les niveaux&lt;/option&gt;
+      @for (entry of levelEntries; track entry[0]) {
+        &lt;option [value]&#x3D;&quot;entry[0]&quot; [selected]&#x3D;&quot;entry[0] &#x3D;&#x3D;&#x3D; level()&quot;&gt;{{ entry[1].label }}&lt;/option&gt;
+      }
+    &lt;/select&gt;
+  &lt;/div&gt;
+
+  @if (store.error()) {
+    &lt;gca-empty-state icon&#x3D;&quot;⚠&quot; heading&#x3D;&quot;Impossible de charger les notifications.&quot;&gt;
+      &lt;button gcaButton type&#x3D;&quot;button&quot; icon&#x3D;&quot;↻&quot; (click)&#x3D;&quot;store.reload()&quot;&gt;Réessayer&lt;/button&gt;
+    &lt;/gca-empty-state&gt;
+  } @else if (store.isLoading() &amp;&amp; visible().length &#x3D;&#x3D;&#x3D; 0) {
+    &lt;div class&#x3D;&quot;skeletons&quot; aria-busy&#x3D;&quot;true&quot; aria-label&#x3D;&quot;Chargement des notifications&quot;&gt;
+      @for (row of [1, 2, 3]; track row) {
+        &lt;gca-skeleton height&#x3D;&quot;4rem&quot; /&gt;
+      }
+    &lt;/div&gt;
+  } @else {
+    @for (group of groups(); track group.label) {
+      &lt;h2 class&#x3D;&quot;group&quot;&gt;{{ group.label }}&lt;/h2&gt;
+      @for (n of group.items; track n.id) {
+        &lt;article class&#x3D;&quot;notification&quot; [class.unread]&#x3D;&quot;!n.readAt&quot;&gt;
+          &lt;gca-tag [severity]&#x3D;&quot;levels[n.level].severity&quot;&gt;{{ levels[n.level].label }}&lt;/gca-tag&gt;
+          &lt;div class&#x3D;&quot;content&quot;&gt;
+            &lt;h3&gt;{{ n.title }}&lt;/h3&gt;
+            &lt;p&gt;{{ n.message }}&lt;/p&gt;
+            @if (n.action; as action) {
+              &lt;a [routerLink]&#x3D;&quot;action.link&quot; (click)&#x3D;&quot;store.markAsRead(n.id)&quot;&gt;{{ action.label }} →&lt;/a&gt;
+            }
+          &lt;/div&gt;
+          &lt;time [attr.datetime]&#x3D;&quot;n.createdAt&quot; [title]&#x3D;&quot;n.createdAt | date: &#x27;full&#x27;&quot;&gt;{{ n.createdAt | date: &#x27;short&#x27; }}&lt;/time&gt;
+          &lt;div class&#x3D;&quot;row-actions&quot;&gt;
+            @if (!n.readAt) {
+              &lt;button gcaButton type&#x3D;&quot;button&quot; size&#x3D;&quot;sm&quot; variant&#x3D;&quot;text&quot; (click)&#x3D;&quot;store.markAsRead(n.id)&quot;&gt;Marquer lu&lt;/button&gt;
+            }
+            &lt;button gcaButton type&#x3D;&quot;button&quot; size&#x3D;&quot;sm&quot; variant&#x3D;&quot;text&quot; severity&#x3D;&quot;danger&quot; (click)&#x3D;&quot;remove(n)&quot;&gt;Suppr.&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/article&gt;
+      }
+    } @empty {
+      &lt;gca-empty-state icon&#x3D;&quot;🔔&quot; [heading]&#x3D;&quot;emptyMessage()&quot;&gt;
+        @if (status() !&#x3D;&#x3D; &#x27;all&#x27; || level()) {
+          &lt;button gcaButton type&#x3D;&quot;button&quot; variant&#x3D;&quot;outlined&quot; (click)&#x3D;&quot;navigate({ status: null, level: null })&quot;&gt;
+            Afficher toutes les notifications
+          &lt;/button&gt;
+        }
+      &lt;/gca-empty-state&gt;
+    }
+
+    @if (filtered().length &gt; limit()) {
+      &lt;button gcaButton type&#x3D;&quot;button&quot; class&#x3D;&quot;more&quot; variant&#x3D;&quot;text&quot; (click)&#x3D;&quot;loadMore()&quot;&gt;Charger plus&lt;/button&gt;
+    }
+  }
+&lt;/gca-card&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./notifications-page.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">:host {
+  display: block;
+}
+
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.page-header p {
+  margin: 0.25rem 0 0;
+  color: var(--gca-text-muted, #64748b);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.level {
+  width: auto;
+  min-width: 12rem;
+}
+
+.skeletons {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.group {
+  margin: 1rem 0 0.5rem;
+  color: var(--gca-text-muted, #64748b);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.notification {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr auto auto;
+  gap: 1rem;
+  align-items: start;
+  margin-bottom: 0.5rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--gca-border, #e2e8f0);
+  border-left: 4px solid transparent;
+  border-radius: 10px;
+}
+
+.notification.unread {
+  border-left-color: var(--gca-primary, #6366f1);
+  background: #f8faff;
+}
+
+.notification.unread h3 {
+  font-weight: 800;
+}
+
+h3 {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.content p {
+  margin: 0.25rem 0;
+  color: #475569;
+  font-size: 0.875rem;
+}
+
+.content a {
+  color: var(--gca-primary-strong, #4338ca);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+time {
+  color: var(--gca-text-muted, #64748b);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+.more {
+  display: block;
+  margin: 0.5rem auto 0;
+}
+
+@media (max-width: 700px) {
+  .notification {
+    grid-template-columns: 1fr;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><header class="page-header">  <div>    <h1>Notifications</h1>    <p>{{ unreadCount() }} non lue{{ unreadCount() > 1 ? \'s\' : \'\' }} sur {{ visible().length }}</p>  </div>  <button    gcaButton    type="button"    variant="outlined"    icon="✓"    [disabled]="store.unreadCount() === 0"    (click)="store.markAllAsRead()"  >    Tout marquer comme lu  </button></header><gca-card>  <div class="filters">    <gca-select-button      ariaLabel="Statut"      [options]="statusOptions()"      [value]="status()"      (valueChange)="navigate({ status: $event === \'all\' ? null : $event })"    />    <select gcaSelect class="level" aria-label="Niveau" (change)="changeLevel($event)">      <option value="">Tous les niveaux</option>      @for (entry of levelEntries; track entry[0]) {        <option [value]="entry[0]" [selected]="entry[0] === level()">{{ entry[1].label }}</option>      }    </select>  </div>  @if (store.error()) {    <gca-empty-state icon="⚠" heading="Impossible de charger les notifications.">      <button gcaButton type="button" icon="↻" (click)="store.reload()">Réessayer</button>    </gca-empty-state>  } @else if (store.isLoading() && visible().length === 0) {    <div class="skeletons" aria-busy="true" aria-label="Chargement des notifications">      @for (row of [1, 2, 3]; track row) {        <gca-skeleton height="4rem" />      }    </div>  } @else {    @for (group of groups(); track group.label) {      <h2 class="group">{{ group.label }}</h2>      @for (n of group.items; track n.id) {        <article class="notification" [class.unread]="!n.readAt">          <gca-tag [severity]="levels[n.level].severity">{{ levels[n.level].label }}</gca-tag>          <div class="content">            <h3>{{ n.title }}</h3>            <p>{{ n.message }}</p>            @if (n.action; as action) {              <a [routerLink]="action.link" (click)="store.markAsRead(n.id)">{{ action.label }} →</a>            }          </div>          <time [attr.datetime]="n.createdAt" [title]="n.createdAt | date: \'full\'">{{ n.createdAt | date: \'short\' }}</time>          <div class="row-actions">            @if (!n.readAt) {              <button gcaButton type="button" size="sm" variant="text" (click)="store.markAsRead(n.id)">Marquer lu</button>            }            <button gcaButton type="button" size="sm" variant="text" severity="danger" (click)="remove(n)">Suppr.</button>          </div>        </article>      }    } @empty {      <gca-empty-state icon="🔔" [heading]="emptyMessage()">        @if (status() !== \'all\' || level()) {          <button gcaButton type="button" variant="outlined" (click)="navigate({ status: null, level: null })">            Afficher toutes les notifications          </button>        }      </gca-empty-state>    }    @if (filtered().length > limit()) {      <button gcaButton type="button" class="more" variant="text" (click)="loadMore()">Charger plus</button>    }  }</gca-card></div>'
+    var COMPONENTS = [{'name': 'App', 'selector': 'app-root'},{'name': 'AppLayout', 'selector': 'app-layout'},{'name': 'LoginPage', 'selector': 'app-login-page'},{'name': 'NotFoundPage', 'selector': 'app-not-found-page'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'ProductDetailPage', 'selector': 'app-product-detail-page'},{'name': 'ProductEditPage', 'selector': 'app-product-edit-page'},{'name': 'ProductSearchPage', 'selector': 'app-product-search-page'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'NotificationsPage'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'NotificationsPage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var updateDarkModeSwitchOffset = function () {
+                    var content = document.querySelector('.content');
+                    var scrollbarWidth = 0;
+
+                    if (content) {
+                         scrollbarWidth = Math.max(0, content.offsetWidth - content.clientWidth);
+                    }
+
+                    document.documentElement.style.setProperty(
+                         '--content-scrollbar-width',
+                         scrollbarWidth + 'px'
+                    );
+               };
+
+               updateDarkModeSwitchOffset();
+               requestAnimationFrame(updateDarkModeSwitchOffset);
+               window.addEventListener('resize', updateDarkModeSwitchOffset);
+
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

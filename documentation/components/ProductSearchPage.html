@@ -1,0 +1,1713 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search">
+    <button type="button"
+        class="search-input-clear"
+        aria-label="Clear search"
+        data-search-input-clear>&times;</button>
+</div>
+            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ProductSearchPage</li>
+</ol>
+
+<div class="io-file io-file-path" data-compodoc="entity-file-path">
+    <span class="icon ion-ios-document" aria-hidden="true"></span>
+    <code>src/app/features/products/pages/product-search-page.ts</code>
+</div>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#api" class="nav-link"
+                role="tab" id="api-tab" data-bs-toggle="tab" data-link="api">API</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-product-search-page</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                        <div>        <code><a href="https://angular.dev/api/common/CurrencyPipe" target="_blank" >CurrencyPipe</a></code>
+</div>
+                        <div>        <code><a href="https://angular.dev/api/router/RouterLink" target="_blank" >RouterLink</a></code>
+</div>
+                        <div>    <code>GcaButton</code>
+</div>
+                        <div>    <code>GcaCard</code>
+</div>
+                        <div>    <code>GcaEmptyState</code>
+</div>
+                        <div>    <code>GcaImage</code>
+</div>
+                        <div>    <code>GcaPaginator</code>
+</div>
+                        <div>    <code>GcaSearchInput</code>
+</div>
+                        <div>    <code>GcaSelect</code>
+</div>
+                        <div>    <code>GcaSkeleton</code>
+</div>
+                        <div>    <code>GcaSortHeader</code>
+</div>
+                        <div>    <code>GcaTable</code>
+</div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./product-search-page.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateVariables</td>
+                <td class="col-md-9">
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-3"><code>result</code></td>
+                                <td class="col-md-9"><code>products.value()</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./product-search-page.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./product-search-page.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+        <section data-compodoc="block-relationships">
+            <h3>Relationships</h3>
+
+            <div class="row pt-3">
+                <div class="col-sm-6">
+                    <h4>Used by</h4>
+                        <p class="comment"><i>No results matching.</i></p>
+                </div>
+
+                <div class="col-sm-6">
+                    <h4>Depends on</h4>
+                        <ul class="list-unstyled relationships-list">
+                                <li>
+                                            <code><a href="https://angular.dev/api/common/CurrencyPipe" target="_blank" >CurrencyPipe</a></code>
+                                </li>
+                                <li>
+                                            <code><a href="https://angular.dev/api/router/RouterLink" target="_blank" >RouterLink</a></code>
+                                </li>
+                                <li>
+                                        <code>GcaButton</code>
+                                </li>
+                                <li>
+                                        <code>GcaCard</code>
+                                </li>
+                                <li>
+                                        <code>GcaEmptyState</code>
+                                </li>
+                                <li>
+                                        <code>GcaImage</code>
+                                </li>
+                                <li>
+                                        <code>GcaPaginator</code>
+                                </li>
+                                <li>
+                                        <code>GcaSearchInput</code>
+                                </li>
+                                <li>
+                                        <code>GcaSelect</code>
+                                </li>
+                                <li>
+                                        <code>GcaSkeleton</code>
+                                </li>
+                                <li>
+                                        <code>GcaSortHeader</code>
+                                </li>
+                                <li>
+                                        <code>GcaTable</code>
+                                </li>
+                        </ul>
+                </div>
+            </div>
+        </section>
+</div>
+
+    <div class="tab-pane fade " id="api">    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+        <table class="table table-sm table-bordered index-table">
+            <tbody>
+                <tr>
+                    <td class="col-md-3">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                    <td class="col-md-9">
+                        <ul class="index-list">
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#api" >api</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#products" >products</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#route" >route</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#skeletonRows" >skeletonRows</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#sort" >sort</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#sortKey" >sortKey</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">P</span>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#sortOptions" >sortOptions</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-sm table-bordered index-table">
+            <tbody>
+                <tr>
+                    <td class="col-md-3">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                    <td class="col-md-9">
+                        <ul class="index-list">
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Protected</span>
+                                <a href="#changePage" >changePage</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Protected</span>
+                                <a href="#changeSort" >changeSort</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Protected</span>
+                                <a href="#changeSortKey" >changeSortKey</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Protected</span>
+                                <a href="#navigate" >navigate</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Protected</span>
+                                <a href="#open" >open</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Protected</span>
+                                <a href="#reset" >reset</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--method" aria-hidden="true">M</span>
+                                    <span class="modifier">Protected</span>
+                                <a href="#search" >search</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-sm table-bordered index-table">
+            <tbody>
+                <tr>
+                    <td class="col-md-3">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                    <td class="col-md-9">
+                        <ul class="index-list">
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">I</span><a href="#order" >order</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">I</span><a href="#page" >page</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">I</span><a href="#q" >q</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">I</span><a href="#size" >size</a>
+                            </li>
+                            <li>
+                                <span class="reference-badge reference-badge--property" aria-hidden="true">I</span><a href="#sortBy" >sortBy</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="order"></a>
+                        <b>order</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#SortOrder" target="_self" >SortOrder</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:59</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="page"></a>
+                        <b>page</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>1</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:56</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="q"></a>
+                        <b>q</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:55</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="size"></a>
+                        <b>size</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>DEFAULT_SIZE</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:57</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sortBy"></a>
+                        <b>sortBy</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:58</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changePage"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>changePage</b></span>
+                        <a href="#changePage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>changePage(: GcaPageEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">src/app/features/products/pages/product-search-page.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                        <code>GcaPageEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changeSort"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>changeSort</b></span>
+                        <a href="#changeSort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>changeSort(sort: GcaSort | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="85"
+                                    class="link-to-prism">src/app/features/products/pages/product-search-page.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>sort</td>
+                                            <td>
+                                                        <code>GcaSort | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changeSortKey"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>changeSortKey</b></span>
+                        <a href="#changeSortKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>changeSortKey(event: <a href="https://angular.dev/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="89"
+                                    class="link-to-prism">src/app/features/products/pages/product-search-page.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.dev/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigate"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>navigate</b></span>
+                        <a href="#navigate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>navigate(queryParams: <a href="https://angular.dev/api/router/Params" target="_blank">Params</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="77"
+                                    class="link-to-prism">src/app/features/products/pages/product-search-page.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>queryParams</td>
+                                            <td>
+                                                            <code><a href="https://angular.dev/api/router/Params" target="_blank" >Params</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="open"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>open</b></span>
+                        <a href="#open"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>open(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="102"
+                                    class="link-to-prism">src/app/features/products/pages/product-search-page.ts:102</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reset"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>reset</b></span>
+                        <a href="#reset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>reset()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="98"
+                                    class="link-to-prism">src/app/features/products/pages/product-search-page.ts:98</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="search"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>search</b></span>
+                        <a href="#search"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>search(q: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">src/app/features/products/pages/product-search-page.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>q</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="api"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>api</b></span>
+                        <a href="#api"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ProductApi)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="products"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>products</b></span>
+                        <a href="#products"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+    params: () &#x3D;&gt; ({ q: this.q(), page: this.page(), size: this.size(), sortBy: this.sortBy(), order: this.order() }),
+    stream: ({ params }) &#x3D;&gt; this.api.search(params),
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="route"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>route</b></span>
+                        <a href="#route"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ActivatedRoute)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="skeletonRows"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>skeletonRows</b></span>
+                        <a href="#skeletonRows"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[1, 2, 3, 4, 5, 6]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sort"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>sort</b></span>
+                        <a href="#sort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed&lt;GcaSort | null&gt;(() &#x3D;&gt; {
+    const field &#x3D; this.sortBy();
+    return field ? { field, order: this.order() ?? &#x27;asc&#x27; } : null;
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sortKey"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>sortKey</b></span>
+                        <a href="#sortKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+    const sort &#x3D; this.sort();
+    return sort ? &#x60;${sort.field}:${sort.order}&#x60; : &#x27;&#x27;;
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sortOptions"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>sortOptions</b></span>
+                        <a href="#sortOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>SORT_OPTIONS</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/features/products/pages/product-search-page.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CurrencyPipe } from &#x27;@angular/common&#x27;;
+import { Component, computed, inject, input, numberAttribute } from &#x27;@angular/core&#x27;;
+import { rxResource } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { ActivatedRoute, Params, Router, RouterLink } from &#x27;@angular/router&#x27;;
+import {
+  GcaButton,
+  GcaCard,
+  GcaEmptyState,
+  GcaImage,
+  GcaPageEvent,
+  GcaPaginator,
+  GcaSearchInput,
+  GcaSelect,
+  GcaSkeleton,
+  GcaSort,
+  GcaSortHeader,
+  GcaTable,
+} from &#x27;gca&#x27;;
+import { ProductApi, SortOrder } from &#x27;../product-api&#x27;;
+
+const DEFAULT_SIZE &#x3D; 20;
+const SORT_OPTIONS &#x3D; [
+  { value: &#x27;&#x27;, label: &#x27;Pertinence&#x27; },
+  { value: &#x27;title:asc&#x27;, label: &#x27;Titre A → Z&#x27; },
+  { value: &#x27;title:desc&#x27;, label: &#x27;Titre Z → A&#x27; },
+  { value: &#x27;price:asc&#x27;, label: &#x27;Prix croissant&#x27; },
+  { value: &#x27;price:desc&#x27;, label: &#x27;Prix décroissant&#x27; },
+] as const;
+
+@Component({
+  selector: &#x27;app-product-search-page&#x27;,
+  imports: [
+    CurrencyPipe,
+    RouterLink,
+    GcaButton,
+    GcaCard,
+    GcaEmptyState,
+    GcaImage,
+    GcaPaginator,
+    GcaSearchInput,
+    GcaSelect,
+    GcaSkeleton,
+    GcaSortHeader,
+    GcaTable,
+  ],
+  templateUrl: &#x27;./product-search-page.html&#x27;,
+  styleUrl: &#x27;./product-search-page.scss&#x27;,
+})
+export default class ProductSearchPage {
+  private readonly api &#x3D; inject(ProductApi);
+  private readonly router &#x3D; inject(Router);
+  private readonly route &#x3D; inject(ActivatedRoute);
+
+  // Paramètres d&#x27;URL reçus via withComponentInputBinding()
+  readonly q &#x3D; input(&#x27;&#x27;, { transform: (value: string | undefined) &#x3D;&gt; value ?? &#x27;&#x27; });
+  readonly page &#x3D; input(1, { transform: (value: unknown) &#x3D;&gt; Math.max(1, numberAttribute(value, 1)) });
+  readonly size &#x3D; input(DEFAULT_SIZE, { transform: (value: unknown) &#x3D;&gt; numberAttribute(value, DEFAULT_SIZE) });
+  readonly sortBy &#x3D; input&lt;string&gt;();
+  readonly order &#x3D; input&lt;SortOrder&gt;();
+
+  protected readonly sortOptions &#x3D; SORT_OPTIONS;
+  protected readonly skeletonRows &#x3D; [1, 2, 3, 4, 5, 6];
+  protected readonly sort &#x3D; computed&lt;GcaSort | null&gt;(() &#x3D;&gt; {
+    const field &#x3D; this.sortBy();
+    return field ? { field, order: this.order() ?? &#x27;asc&#x27; } : null;
+  });
+  protected readonly sortKey &#x3D; computed(() &#x3D;&gt; {
+    const sort &#x3D; this.sort();
+    return sort ? &#x60;${sort.field}:${sort.order}&#x60; : &#x27;&#x27;;
+  });
+
+  protected readonly products &#x3D; rxResource({
+    params: () &#x3D;&gt; ({ q: this.q(), page: this.page(), size: this.size(), sortBy: this.sortBy(), order: this.order() }),
+    stream: ({ params }) &#x3D;&gt; this.api.search(params),
+  });
+
+  protected navigate(queryParams: Params): void {
+    void this.router.navigate([], { relativeTo: this.route, queryParams, queryParamsHandling: &#x27;merge&#x27; });
+  }
+
+  protected search(q: string): void {
+    this.navigate({ q: q.trim() || null, page: null });
+  }
+
+  protected changeSort(sort: GcaSort | null): void {
+    this.navigate({ sortBy: sort?.field ?? null, order: sort?.order ?? null, page: null });
+  }
+
+  protected changeSortKey(event: Event): void {
+    const [field, order] &#x3D; (event.target as HTMLSelectElement).value.split(&#x27;:&#x27;);
+    this.changeSort(field ? { field, order: order &#x3D;&#x3D;&#x3D; &#x27;desc&#x27; ? &#x27;desc&#x27; : &#x27;asc&#x27; } : null);
+  }
+
+  protected changePage({ page, pageSize }: GcaPageEvent): void {
+    this.navigate({ page: page &gt; 1 ? page : null, size: pageSize &#x3D;&#x3D;&#x3D; DEFAULT_SIZE ? null : pageSize });
+  }
+
+  protected reset(): void {
+    void this.router.navigate([], { relativeTo: this.route });
+  }
+
+  protected open(id: number): void {
+    void this.router.navigate([id], { relativeTo: this.route, queryParamsHandling: &#x27;preserve&#x27; });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;header class&#x3D;&quot;page-header&quot;&gt;
+  &lt;h1&gt;Produits&lt;/h1&gt;
+  &lt;p&gt;Recherchez un produit du catalogue puis consultez ou modifiez sa fiche.&lt;/p&gt;
+&lt;/header&gt;
+
+&lt;gca-card&gt;
+  &lt;div class&#x3D;&quot;toolbar&quot; role&#x3D;&quot;search&quot;&gt;
+    &lt;gca-search-input class&#x3D;&quot;search&quot; placeholder&#x3D;&quot;Rechercher un produit&quot; [value]&#x3D;&quot;q()&quot; (search)&#x3D;&quot;search($event)&quot; /&gt;
+    &lt;select gcaSelect class&#x3D;&quot;sort&quot; aria-label&#x3D;&quot;Trier par&quot; (change)&#x3D;&quot;changeSortKey($event)&quot;&gt;
+      @for (option of sortOptions; track option.value) {
+        &lt;option [value]&#x3D;&quot;option.value&quot; [selected]&#x3D;&quot;option.value &#x3D;&#x3D;&#x3D; sortKey()&quot;&gt;{{ option.label }}&lt;/option&gt;
+      }
+    &lt;/select&gt;
+    &lt;button gcaButton type&#x3D;&quot;button&quot; variant&#x3D;&quot;text&quot; severity&#x3D;&quot;secondary&quot; (click)&#x3D;&quot;reset()&quot;&gt;Réinitialiser&lt;/button&gt;
+  &lt;/div&gt;
+
+  @if (products.error()) {
+    &lt;gca-empty-state icon&#x3D;&quot;⚠&quot; heading&#x3D;&quot;Impossible de charger les produits.&quot; description&#x3D;&quot;Vos filtres sont conservés.&quot;&gt;
+      &lt;button gcaButton type&#x3D;&quot;button&quot; icon&#x3D;&quot;↻&quot; (click)&#x3D;&quot;products.reload()&quot;&gt;Réessayer&lt;/button&gt;
+    &lt;/gca-empty-state&gt;
+  } @else if (products.hasValue()) {
+    @let result &#x3D; products.value();
+    @if (result.products.length &#x3D;&#x3D;&#x3D; 0) {
+      &lt;gca-empty-state
+        icon&#x3D;&quot;⌕&quot;
+        heading&#x3D;&quot;Aucun résultat&quot;
+        [description]&#x3D;&quot;q() ? &#x27;Aucun produit ne correspond à « &#x27; + q() + &#x27; ».&#x27; : &#x27;Le catalogue est vide.&#x27;&quot;
+      &gt;
+        &lt;button gcaButton type&#x3D;&quot;button&quot; variant&#x3D;&quot;outlined&quot; (click)&#x3D;&quot;reset()&quot;&gt;Réinitialiser&lt;/button&gt;
+      &lt;/gca-empty-state&gt;
+    } @else {
+      &lt;p class&#x3D;&quot;summary&quot; aria-live&#x3D;&quot;polite&quot;&gt;
+        &lt;strong&gt;{{ result.total }}&lt;/strong&gt; résultat{{ result.total &gt; 1 ? &#x27;s&#x27; : &#x27;&#x27; }}
+        @if (q()) {
+          pour « {{ q() }} »
+        }
+      &lt;/p&gt;
+      &lt;div class&#x3D;&quot;table-scroll&quot;&gt;
+        &lt;table gcaTable [sort]&#x3D;&quot;sort()&quot; [loading]&#x3D;&quot;products.isLoading()&quot; (sortChange)&#x3D;&quot;changeSort($event)&quot;&gt;
+          &lt;thead&gt;
+            &lt;tr&gt;
+              &lt;th&gt;&lt;span class&#x3D;&quot;sr-only&quot;&gt;Miniature&lt;/span&gt;&lt;/th&gt;
+              &lt;th&gt;ID&lt;/th&gt;
+              &lt;th gcaSortHeader&#x3D;&quot;title&quot;&gt;Titre&lt;/th&gt;
+              &lt;th&gt;Description&lt;/th&gt;
+              &lt;th gcaSortHeader&#x3D;&quot;price&quot; class&#x3D;&quot;gca-num&quot;&gt;Prix&lt;/th&gt;
+              &lt;th class&#x3D;&quot;gca-actions&quot;&gt;Actions&lt;/th&gt;
+            &lt;/tr&gt;
+          &lt;/thead&gt;
+          &lt;tbody&gt;
+            @for (product of result.products; track product.id) {
+              &lt;tr class&#x3D;&quot;gca-row-link&quot; tabindex&#x3D;&quot;0&quot; (click)&#x3D;&quot;open(product.id)&quot; (keydown.enter)&#x3D;&quot;open(product.id)&quot;&gt;
+                &lt;td&gt;
+                  &lt;gca-image compact width&#x3D;&quot;36px&quot; height&#x3D;&quot;36px&quot; [src]&#x3D;&quot;product.thumbnail&quot; [alt]&#x3D;&quot;product.title&quot; /&gt;
+                &lt;/td&gt;
+                &lt;td&gt;{{ product.id }}&lt;/td&gt;
+                &lt;td&gt;&lt;strong&gt;{{ product.title }}&lt;/strong&gt;&lt;/td&gt;
+                &lt;td class&#x3D;&quot;gca-truncate&quot; [title]&#x3D;&quot;product.description&quot;&gt;{{ product.description }}&lt;/td&gt;
+                &lt;td class&#x3D;&quot;gca-num&quot;&gt;{{ product.price | currency: &#x27;EUR&#x27; }}&lt;/td&gt;
+                &lt;td class&#x3D;&quot;gca-actions&quot; (click)&#x3D;&quot;$event.stopPropagation()&quot; (keydown.enter)&#x3D;&quot;$event.stopPropagation()&quot;&gt;
+                  &lt;a gcaButton size&#x3D;&quot;sm&quot; variant&#x3D;&quot;text&quot; queryParamsHandling&#x3D;&quot;preserve&quot; [routerLink]&#x3D;&quot;[product.id]&quot;&gt;Voir&lt;/a&gt;
+                  &lt;a
+                    gcaButton
+                    size&#x3D;&quot;sm&quot;
+                    variant&#x3D;&quot;outlined&quot;
+                    queryParamsHandling&#x3D;&quot;preserve&quot;
+                    [routerLink]&#x3D;&quot;[product.id, &#x27;edit&#x27;]&quot;
+                  &gt;
+                    Modifier
+                  &lt;/a&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            }
+          &lt;/tbody&gt;
+        &lt;/table&gt;
+      &lt;/div&gt;
+      &lt;gca-paginator [total]&#x3D;&quot;result.total&quot; [page]&#x3D;&quot;page()&quot; [pageSize]&#x3D;&quot;size()&quot; (paginate)&#x3D;&quot;changePage($event)&quot; /&gt;
+    }
+  } @else {
+    &lt;div class&#x3D;&quot;skeletons&quot; aria-busy&#x3D;&quot;true&quot; aria-label&#x3D;&quot;Chargement des produits&quot;&gt;
+      @for (row of skeletonRows; track row) {
+        &lt;div class&#x3D;&quot;skeleton-row&quot;&gt;
+          &lt;gca-skeleton shape&#x3D;&quot;circle&quot; width&#x3D;&quot;36px&quot; /&gt;
+          &lt;gca-skeleton width&#x3D;&quot;25%&quot; /&gt;
+          &lt;gca-skeleton width&#x3D;&quot;45%&quot; /&gt;
+          &lt;gca-skeleton width&#x3D;&quot;10%&quot; /&gt;
+        &lt;/div&gt;
+      }
+    &lt;/div&gt;
+  }
+&lt;/gca-card&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./product-search-page.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.page-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.page-header p {
+  margin: 0.25rem 0 1.25rem;
+  color: var(--gca-text-muted, #64748b);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search {
+  flex: 1 1 18rem;
+}
+
+.sort {
+  width: auto;
+  min-width: 12rem;
+}
+
+.summary {
+  margin: 0 0 0.5rem;
+  color: var(--gca-text-muted, #64748b);
+  font-size: 0.875rem;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><header class="page-header">  <h1>Produits</h1>  <p>Recherchez un produit du catalogue puis consultez ou modifiez sa fiche.</p></header><gca-card>  <div class="toolbar" role="search">    <gca-search-input class="search" placeholder="Rechercher un produit" [value]="q()" (search)="search($event)" />    <select gcaSelect class="sort" aria-label="Trier par" (change)="changeSortKey($event)">      @for (option of sortOptions; track option.value) {        <option [value]="option.value" [selected]="option.value === sortKey()">{{ option.label }}</option>      }    </select>    <button gcaButton type="button" variant="text" severity="secondary" (click)="reset()">Réinitialiser</button>  </div>  @if (products.error()) {    <gca-empty-state icon="⚠" heading="Impossible de charger les produits." description="Vos filtres sont conservés.">      <button gcaButton type="button" icon="↻" (click)="products.reload()">Réessayer</button>    </gca-empty-state>  } @else if (products.hasValue()) {    @let result = products.value();    @if (result.products.length === 0) {      <gca-empty-state        icon="⌕"        heading="Aucun résultat"        [description]="q() ? \'Aucun produit ne correspond à « \' + q() + \' ».\' : \'Le catalogue est vide.\'"      >        <button gcaButton type="button" variant="outlined" (click)="reset()">Réinitialiser</button>      </gca-empty-state>    } @else {      <p class="summary" aria-live="polite">        <strong>{{ result.total }}</strong> résultat{{ result.total > 1 ? \'s\' : \'\' }}        @if (q()) {          pour « {{ q() }} »        }      </p>      <div class="table-scroll">        <table gcaTable [sort]="sort()" [loading]="products.isLoading()" (sortChange)="changeSort($event)">          <thead>            <tr>              <th><span class="sr-only">Miniature</span></th>              <th>ID</th>              <th gcaSortHeader="title">Titre</th>              <th>Description</th>              <th gcaSortHeader="price" class="gca-num">Prix</th>              <th class="gca-actions">Actions</th>            </tr>          </thead>          <tbody>            @for (product of result.products; track product.id) {              <tr class="gca-row-link" tabindex="0" (click)="open(product.id)" (keydown.enter)="open(product.id)">                <td>                  <gca-image compact width="36px" height="36px" [src]="product.thumbnail" [alt]="product.title" />                </td>                <td>{{ product.id }}</td>                <td><strong>{{ product.title }}</strong></td>                <td class="gca-truncate" [title]="product.description">{{ product.description }}</td>                <td class="gca-num">{{ product.price | currency: \'EUR\' }}</td>                <td class="gca-actions" (click)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()">                  <a gcaButton size="sm" variant="text" queryParamsHandling="preserve" [routerLink]="[product.id]">Voir</a>                  <a                    gcaButton                    size="sm"                    variant="outlined"                    queryParamsHandling="preserve"                    [routerLink]="[product.id, \'edit\']"                  >                    Modifier                  </a>                </td>              </tr>            }          </tbody>        </table>      </div>      <gca-paginator [total]="result.total" [page]="page()" [pageSize]="size()" (paginate)="changePage($event)" />    }  } @else {    <div class="skeletons" aria-busy="true" aria-label="Chargement des produits">      @for (row of skeletonRows; track row) {        <div class="skeleton-row">          <gca-skeleton shape="circle" width="36px" />          <gca-skeleton width="25%" />          <gca-skeleton width="45%" />          <gca-skeleton width="10%" />        </div>      }    </div>  }</gca-card></div>'
+    var COMPONENTS = [{'name': 'App', 'selector': 'app-root'},{'name': 'AppLayout', 'selector': 'app-layout'},{'name': 'LoginPage', 'selector': 'app-login-page'},{'name': 'NotFoundPage', 'selector': 'app-not-found-page'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'ProductDetailPage', 'selector': 'app-product-detail-page'},{'name': 'ProductEditPage', 'selector': 'app-product-edit-page'},{'name': 'ProductSearchPage', 'selector': 'app-product-search-page'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'ProductSearchPage'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProductSearchPage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var updateDarkModeSwitchOffset = function () {
+                    var content = document.querySelector('.content');
+                    var scrollbarWidth = 0;
+
+                    if (content) {
+                         scrollbarWidth = Math.max(0, content.offsetWidth - content.clientWidth);
+                    }
+
+                    document.documentElement.style.setProperty(
+                         '--content-scrollbar-width',
+                         scrollbarWidth + 'px'
+                    );
+               };
+
+               updateDarkModeSwitchOffset();
+               requestAnimationFrame(updateDarkModeSwitchOffset);
+               window.addEventListener('resize', updateDarkModeSwitchOffset);
+
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
